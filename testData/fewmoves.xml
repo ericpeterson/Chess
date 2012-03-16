@@ -1,0 +1,96 @@
+<chessgame>	
+	<board>
+		<piece type="rook" color="black" column="0" row="0"/>
+		<piece color="black" type="knight" column="1" row="0"/>
+		<piece type="bishop" color="black"  row="0" column="2"/>
+		<piece row="0" type="queen" color="white" column="7"/>
+		<piece column="0" type="pawn" color="black" row="1"/>
+		<piece type="pawn" color="black" column="1" row="1"/>
+		<piece type="pawn" color="black" column="2" row="1"/>
+		<piece type="pawn" color="black" column="3" row="1"/>
+		<piece type="king" color="black" column="4" row="1"/>
+		<piece type="pawn" color="black" column="5" row="1"/>
+		<piece type="pawn" color="black" column="7" row="1"/>
+		<piece type="knight" color="black" column="5" row="2"/>
+		<piece type="pawn" color="white" column="6" row="3"/>
+		<piece type="pawn" color="white" column="0" row="6"/>
+		<piece type="pawn" color="white" column="1" row="6"/>
+		<piece type="pawn" color="white" column="2" row="6"/>
+		<piece type="pawn" color="white" column="4" row="6"/>
+		<piece type="pawn" color="white" column="5" row="6"/>
+		<piece type="pawn" color="white" column="6" row="6"/>
+		<piece type="rook" color	=	"white" column
+			   ="0" row	="7"
+			   /><piece type="knight" color="white" column="1" row="7"/>
+		<piece type=           "king" color="white" column="4" row="7"/>
+		<piece type=	"bishop" color="white" column="5" row="7"/>
+		<piece type="knight" color="white" column="6" row="7"/>
+		<piece type="rook" color="white" column="7" row="7"/>
+	</board>
+	<history>
+		<move>
+			<piece type="pawn" color="white" column="7" row="6"/>
+			<piece type="pawn" color="white" column="7" row="4"/>
+		</move>
+		<move>
+			<piece type="pawn" color="black" column="6" row="1"/>
+			<piece type="pawn" color="black" column="6" row="3"/>
+		</move>
+		<move>
+			<piece type="pawn" color="white" column="3" row="6"/>
+			<piece type="pawn" color="white" column="3" row="4"/>
+		</move>
+		<move>
+			<piece type="pawn" color="black" column="4" row="1"/>
+			<piece type="pawn" color="black" column="4" row="3"/>
+		</move>
+		<move>
+			<piece type="bishop" color="white" column="2" row="7"/>
+			<piece type="bishop" color="white" column="6" row="3"/>
+			<piece type="pawn" color="black" column="6" row="3"/>
+		</move>
+		<move>
+			<piece type="queen" color="black" column="3" row="0"/>
+			<piece type="queen" color="black" column="6" row="3"/>
+			<piece type="bishop" color="white" column="6" row="3"/>
+		</move>
+		<move>
+			<piece type="pawn" color="white" column="7" row="4"/>
+			<piece type="pawn" color="white" column="6" row="3"/>
+			<piece type="queen" color="black" column="6" row="3"/>
+		</move>
+		<move>
+			<piece type="pawn" color="black" column="4" row="3"/>
+			<piece type="pawn" color="black" column="3" row="4"/>
+			<piece type="pawn" color="white" column="3" row="4"/>
+		</move>
+		<move>
+			<piece type="queen" color="white" column="3" row="7"/>
+			<piece type="queen" color="white" column="3" row="4"/>
+			<piece type="pawn" color="black" column="3" row="4"/>
+		</move>
+		<move>
+			<piece type="bishop" color="black" column="5" row="0"/>
+			<piece type="bishop" color="black" column="6" row="1"/>
+		</move>
+		<move>
+			<piece type="queen" color="white" column="3" row="4"/>
+			<piece type="queen" color="white" column="6" row="1"/>
+			<piece type="bishop" color="black" column="6" row="1"/>
+		</move>
+		<move>
+			<piece type="knight" color="black" column="6" row="0"/>
+			<piece type="knight" color="black" column="5" row="2"/>
+		</move>
+		<move>
+			<piece type="queen" color="white" column="6" row="1"/>
+			<piece type="queen" color="white" column="7" row="0"/>
+			<piece type="rook" color="black" column="7" row="0"/>
+		</move>
+		<move>
+			<piece type="king" color="black" column="4" row="0"/>
+			<piece type="king" color="black" column="4" row="1"/>
+		</move>
+	</history>
+
+</chessgame>
