@@ -151,7 +151,7 @@ int main(int argc,char ** argv)
 	}
 	catch(std::exception & e)
 	{
-		g_warning(e.what());
+		g_warning("%s", e.what());
 		return 1;
 	}
 	catch(...)

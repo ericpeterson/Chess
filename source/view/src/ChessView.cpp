@@ -238,13 +238,21 @@ void ChessView::SetStatusBar(const std::string & status)
 
 std::string ChessView::SelectSaveFile()
 {
-        if (!memTest)
+        if (!memTest) {
 	  return gui->SelectSaveFile();
+        }
+
+        // this return statement is to satisfy compiler warnings
+        return "";
 }
 std::string ChessView::SelectLoadFile()
 {
-        if (!memTest)
+        if (!memTest) {
 	  return gui->SelectLoadFile();
+        }
+
+        // this return statement is to satisfy compiler warnings
+        return "";
 }
 
 

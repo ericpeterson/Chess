@@ -87,7 +87,7 @@ LIB_OBJS = $(VIEW_OBJ)ChessView.o \
 run: $(EXE)
 	$(EXE)
 
-bin: $(EXE)
+bin: lib $(EXE)
 
 # Run the executable for memory testing
 # Instructions: Edit the command below so that it runs the  
@@ -96,6 +96,10 @@ bin: $(EXE)
 memcheck: $(MEXE)
 	valgrind --tool=memcheck --leak-check=yes --max-stackframe=5000000 --show-reachable=yes --suppressions=string.supp $(MEXE) #command-line args go here
 
+LIB = ./lib/libchessgui.so
+
+lib: $(LIB)
+
 # Clean removes all of the .o files, libraries, and executables
 clean:
 	@rm -f $(MODEL_OBJ)*.o
@@ -103,7 +107,9 @@ clean:
 	@rm -f $(CONT_OBJ)*.o
 	@rm -f $(EXE)
 	@rm -f $(MEXE)
+	@rm -f $(LIB)
 
+.PHONY: run bin memcheck lib clean 
 
 ################################################################################
 # Targets for executables and main object files
@@ -117,36 +123,44 @@ clean:
 # GUI. So when we check for memory leaks during passoff, we don't have to use
 # the GUI.
 
+LFLAGS = -L./lib -lchessgui
+
 # Main executable
 # Note: Once you have added the ability to make a library out of the View files, 
 # the executable should be dependent on, and link in the library file, not the 
 # .o files! That means, instead of linking in $(LIB_OBJS) below, you should link
 # in the actual library file.
-$(EXE): $(MAIN_O) $(MY_OBJS) $(LIB_OBJS)
+$(EXE): $(MAIN_O) $(MY_OBJS) lib
 	@# Re-link executable. Again, this should link the library file, not the .o's
-	g++ $(INCLUDES) -o $(EXE) $(MAIN_O) $(MY_OBJS) $(LIB_OBJS) $(CFLAGS) $(LIBS)
+	g++ $(INCLUDES) -o $(EXE) $(MAIN_O) $(MY_OBJS) $(CFLAGS) $(LIBS) $(LFLAGS) 
 	chmod ugo+x $(EXE)
 
 # Executable for memory testing
-$(MEXE): $(MEMMAIN_O) $(MY_OBJS) $(LIB_OBJS)
+$(MEXE): $(MEMMAIN_O) $(MY_OBJS) lib
 	@# Re-link executable. Again, this should link the library file, not the .o's
-	g++ $(INCLUDES) -o $(MEXE) $(MEMMAIN_O) $(MY_OBJS) $(LIB_OBJS) $(CFLAGS) $(LIBS)
+	g++ $(INCLUDES) -o $(MEXE) $(MEMMAIN_O) $(MY_OBJS) $(CFLAGS) $(LIBS) $(LFLAGS)
 	chmod ugo+x $(MEXE)
 	
 
+EFLAGS = -Wall -Werror
+
 # Main object file
 $(MAIN_O): $(CONT_SRC)main.cpp $(VIEW_INC)ChessGuiImages.h $(VIEW_INC)ChessView.h
-	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(MAIN_O) -c $(LOG_FLAG) $(CONT_SRC)main.cpp
+	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(MAIN_O) -c $(EFLAGS) $(LOG_FLAG) $(CONT_SRC)main.cpp
 
 # Main .o for memory testing
 $(MEMMAIN_O): $(CONT_SRC)main.cpp $(VIEW_INC)ChessGuiImages.h $(VIEW_INC)ChessView.h
-	g++ -DMEMCHECK $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(MEMMAIN_O) -c $(LOG_FLAG) $(CONT_SRC)main.cpp
+	g++ -DMEMCHECK $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(MEMMAIN_O) -c $(EFLAGS) $(LOG_FLAG) $(CONT_SRC)main.cpp
 
 
 
 ################################################################################
 # Targets for YOUR object files...
 
+SHARED = -shared
+
+$(LIB): $(LIB_OBJS)
+	g++ $(SHARED) -o $(LIB) $(LIB_OBJS)
 
 
 
@@ -156,21 +170,24 @@ $(MEMMAIN_O): $(CONT_SRC)main.cpp $(VIEW_INC)ChessGuiImages.h $(VIEW_INC)ChessVi
 # Instructions: These will have to be recompiled as position-independent code, 
 # so that they can be put into a shared library.
 
+# compile as position independent code
+PIC = -fPIC
+
 $(VIEW_OBJ)ChessView.o: $(VIEW_SRC)ChessView.cpp $(VIEW_INC)SelectDialog.h $(VIEW_INC)ChessView.h $(CONT_INC)IChessController.h
-	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(VIEW_OBJ)ChessView.o -c $(LOG_FLAG) $(VIEW_SRC)ChessView.cpp
+	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(VIEW_OBJ)ChessView.o -c $(EFLAGS) $(PIC) $(LOG_FLAG) $(VIEW_SRC)ChessView.cpp
 
 $(VIEW_OBJ)ChessGuiBoardCell.o: $(VIEW_SRC)ChessGuiBoardCell.cpp $(VIEW_INC)ChessGuiBoardCell.h $(VIEW_INC)ChessGuiImages.h
-	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(VIEW_OBJ)ChessGuiBoardCell.o -c $(VIEW_SRC)ChessGuiBoardCell.cpp
+	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(VIEW_OBJ)ChessGuiBoardCell.o -c $(EFLAGS) $(PIC) $(VIEW_SRC)ChessGuiBoardCell.cpp
 
 $(VIEW_OBJ)ChessGuiBoard.o: $(VIEW_SRC)ChessGuiBoard.cpp $(VIEW_INC)ChessGuiBoard.h $(VIEW_INC)ChessGui.h $(VIEW_INC)ChessGuiImages.h
-	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(VIEW_OBJ)ChessGuiBoard.o -c $(VIEW_SRC)ChessGuiBoard.cpp
+	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(VIEW_OBJ)ChessGuiBoard.o -c $(EFLAGS) $(PIC) $(VIEW_SRC)ChessGuiBoard.cpp
 
 $(VIEW_OBJ)ChessGui.o: $(VIEW_SRC)ChessGui.cpp $(VIEW_INC)ChessGui.h $(VIEW_INC)ChessGuiImages.h $(VIEW_INC)SelectDialog.h
-	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(VIEW_OBJ)ChessGui.o -c $(VIEW_SRC)ChessGui.cpp
+	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(VIEW_OBJ)ChessGui.o -c $(EFLAGS) $(PIC) $(VIEW_SRC)ChessGui.cpp
 
 $(VIEW_OBJ)ChessGuiImages.o: $(VIEW_SRC)ChessGuiImages.cpp $(VIEW_INC)ChessGuiImages.h $(VIEW_INC)Inline.h
-	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(VIEW_OBJ)ChessGuiImages.o -c $(VIEW_SRC)ChessGuiImages.cpp
+	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(VIEW_OBJ)ChessGuiImages.o -c $(EFLAGS) $(PIC) $(VIEW_SRC)ChessGuiImages.cpp
 
 $(VIEW_OBJ)SelectDialog.o: $(VIEW_SRC)SelectDialog.cpp
-	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(VIEW_OBJ)SelectDialog.o -c $(VIEW_SRC)SelectDialog.cpp
+	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(VIEW_OBJ)SelectDialog.o -c $(EFLAGS) $(PIC) $(VIEW_SRC)SelectDialog.cpp
 

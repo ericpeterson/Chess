@@ -38,6 +38,11 @@ Steve McConnell ISBN 0-7356-1967-0 page 277.
       MyClass specificMyClass;
       std::cout << "My member = " << specificMyClass.GetMyMember() << std::endl;
 
+      // Pointers - mixed case prefixed with the lowercase letter p
+      MyClass * pSpecificMyClass = &specificMyClass;
+      std::cout << "My member (accessed by pointer) = " << pSpecificMyClass->GetMyMember();
+      std::cout << std::endl;
+
       MyType coolMyType = 5.6;
       std::cout << "My cool type = " << coolMyType << std::endl;
 
