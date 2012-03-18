@@ -85,7 +85,8 @@ LIB_OBJS = $(VIEW_OBJ)ChessView.o \
 # Pseudo-targets
 
 run: $(EXE)
-	$(EXE)
+	export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
+	/home/eric/School/Chess/source/lib"; $(EXE)
 
 bin: lib $(EXE)
 
