@@ -88,7 +88,7 @@ run: $(EXE)
 	export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
 	/home/eric/School/Chess/source/lib"; $(EXE)
 
-bin: lib $(EXE)
+bin: $(EXE)
 
 # Run the executable for memory testing
 # Instructions: Edit the command below so that it runs the  
@@ -131,15 +131,15 @@ LFLAGS = -L./lib -lchessgui
 # the executable should be dependent on, and link in the library file, not the 
 # .o files! That means, instead of linking in $(LIB_OBJS) below, you should link
 # in the actual library file.
-$(EXE): $(MAIN_O) $(MY_OBJS) lib
+$(EXE): $(MAIN_O) $(MY_OBJS) $(LIB)
 	@# Re-link executable. Again, this should link the library file, not the .o's
-	g++ $(INCLUDES) -o $(EXE) $(MAIN_O) $(MY_OBJS) $(CFLAGS) $(LIBS) $(LFLAGS) 
+	g++ $(INCLUDES) -o $(EXE) $(MAIN_O) $(MY_OBJS) $(CFLAGS) $(LFLAGS) $(LIBS) 
 	chmod ugo+x $(EXE)
 
 # Executable for memory testing
-$(MEXE): $(MEMMAIN_O) $(MY_OBJS) lib
+$(MEXE): $(MEMMAIN_O) $(MY_OBJS) $(LIB)
 	@# Re-link executable. Again, this should link the library file, not the .o's
-	g++ $(INCLUDES) -o $(MEXE) $(MEMMAIN_O) $(MY_OBJS) $(CFLAGS) $(LIBS) $(LFLAGS)
+	g++ $(INCLUDES) -o $(MEXE) $(MEMMAIN_O) $(MY_OBJS) $(CFLAGS) $(LFLAGS) $(LIBS)
 	chmod ugo+x $(MEXE)
 	
 
