@@ -116,7 +116,8 @@ runcc: $(EXE)
 
 bin: $(EXE)
 
-test:
+test: $(TEST_DRIVER_EXE)
+	$(TEST_DRIVER_EXE)
 
 
 # Run the executable for memory testing
@@ -136,9 +137,13 @@ clean:
 	@rm -f $(MODEL_OBJ)*.o
 	@rm -f $(VIEW_OBJ)*.o
 	@rm -f $(CONT_OBJ)*.o
+	@rm -f $(TEST_DRIVER_OBJ)*.o
 	@rm -f $(EXE)
 	@rm -f $(MEXE)
+	@rm -f $(TEST_DRIVER_EXE)
 	@rm -f $(LIB)
+
+clean-dep:
 	@rm -f $(MODEL_DEP)
 	@rm -f $(CONT_DEP)
 	@rm -f $(TEST_DRIVER_DEP)
@@ -241,21 +246,21 @@ $(VIEW_OBJ)SelectDialog.o: $(VIEW_SRC)SelectDialog.cpp
 
 # Make dependencies
 $(MODEL_DEP):
-	 for CPP_FILE in $(MODEL_SRC)*.cpp; do\
+	@for CPP_FILE in $(MODEL_SRC)*.cpp; do\
 	   CPP_BASE=$$(basename $$CPP_FILE);\
 	   CPP_BASE_NO_EXT=$${CPP_BASE%%\.*};\
 	   g++ $(INCLUDES) -MT $(MODEL_OBJ)$${CPP_BASE_NO_EXT}.o -MM $$CPP_FILE;\
 	 done > $(MODEL_DEP)
 
 $(CONT_DEP):
-	 for CPP_FILE in $(CONT_SRC)*.cpp; do\
+	@for CPP_FILE in $(CONT_SRC)*.cpp; do\
 	   CPP_BASE=$$(basename $$CPP_FILE);\
 	   CPP_BASE_NO_EXT=$${CPP_BASE%%\.*};\
 	   g++ $(INCLUDES) -MT $(CONT_OBJ)$${CPP_BASE_NO_EXT}.o -MM $$CPP_FILE;\
 	 done > $(CONT_DEP)
 
 $(TEST_DRIVER_DEP):
-	for CPP_FILE in $(TEST_DRIVER_SRC)*.cpp; do\
+	@for CPP_FILE in $(TEST_DRIVER_SRC)*.cpp; do\
 	   CPP_BASE=$$(basename $$CPP_FILE);\
 	   CPP_BASE_NO_EXT=$${CPP_BASE%%\.*};\
 	   g++ $(INCLUDES) -MT $(TEST_DRIVER_OBJ)$${CPP_BASE_NO_EXT}.o -MM $$CPP_FILE;\
