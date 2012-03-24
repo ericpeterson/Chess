@@ -43,18 +43,26 @@ LIBS   = `pkg-config $(GTKMM) $(SIGC) $(LIBGLADE) --libs`
 MODEL_SRC = model/src/
 MODEL_INC = model/inc/
 MODEL_OBJ = model/obj/
+MODEL_DEP = model/dep/make.dep
 VIEW_SRC = view/src/
 VIEW_INC = view/inc/
 VIEW_OBJ = view/obj/
 CONT_SRC = controller/src/
 CONT_INC = controller/inc/
 CONT_OBJ = controller/obj/
+CONT_DEP = controller/dep/make.dep
+TEST_DRIVER_SRC = test/src/
+TEST_DRIVER_OBJ = test/obj/
+TEST_DRIVER_DEP = test/dep/make.dep
+UTILS_INC = utils/include/
 EXE = bin/chess			# normal executable
 MEXE = bin/mchess			# executable for memory testing
+TEST_DRIVER_EXE = bin/test-driver
+
 
 # Macros for compilation flags
-INCLUDES = -I$(MODEL_INC) -I$(VIEW_INC) -I$(CONT_INC)
-DEBUG = #-g # Uncomment this if you want to compile with debug info
+INCLUDES = -I$(MODEL_INC) -I$(VIEW_INC) -I$(CONT_INC) -I$(UTILS_INC)
+DEBUG = -g # Uncomment this if you want to compile with debug info
 
 # Uncomment the flag on this next line to turn off the logging messages from the
 # GUI
@@ -65,9 +73,15 @@ LOG_FLAG = #'-DLOG_LEVEL_HIDE_MASK=(G_LOG_LEVEL_DEBUG|G_LOG_LEVEL_INFO)'
 MAIN_O = $(CONT_OBJ)main.o
 MEMMAIN_O = $(CONT_OBJ)memcheck_main.o
 
+# Test driver .o file
+TEST_DRIVER_O = $(TEST_DRIVER_OBJ)TestDriver.o
+
 # This macro should be used to store all of the object files created 
 # from *your* source files
 MY_OBJS =  
+
+# Test driver object files 
+TEST_DRIVER_OBJS = $(TEST_DRIVER_O)
 
 # These are all the object files that go into the library
 LIB_OBJS = $(VIEW_OBJ)ChessView.o \
@@ -84,11 +98,26 @@ LIB_OBJS = $(VIEW_OBJ)ChessView.o \
 ################################################################################
 # Pseudo-targets
 
-run: $(EXE)
-	export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
-	/home/eric/School/Chess/source/lib"; $(EXE)
+runhc: $(EXE)
+	@export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
+	/home/eric/School/Chess/source/lib"; echo "Human vs. Computer";\$(EXE)
+
+runch: $(EXE)
+	@export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
+	/home/eric/School/Chess/source/lib"; echo "Computer vs. Human"; $(EXE)
+
+runhh: $(EXE)
+	@export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
+	/home/eric/School/Chess/source/lib"; echo "Human vs. Human"; $(EXE)
+
+runcc: $(EXE)
+	@export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
+	/home/eric/School/Chess/source/lib"; echo "Computer vs. Computer"; $(EXE)
 
 bin: $(EXE)
+
+test:
+
 
 # Run the executable for memory testing
 # Instructions: Edit the command below so that it runs the  
@@ -101,6 +130,7 @@ LIB = ./lib/libchessgui.so
 
 lib: $(LIB)
 
+
 # Clean removes all of the .o files, libraries, and executables
 clean:
 	@rm -f $(MODEL_OBJ)*.o
@@ -109,8 +139,11 @@ clean:
 	@rm -f $(EXE)
 	@rm -f $(MEXE)
 	@rm -f $(LIB)
+	@rm -f $(MODEL_DEP)
+	@rm -f $(CONT_DEP)
+	@rm -f $(TEST_DRIVER_DEP)
 
-.PHONY: run bin memcheck lib clean 
+.PHONY: runhc runch runhh runcc bin test memcheck lib clean 
 
 ################################################################################
 # Targets for executables and main object files
@@ -163,7 +196,20 @@ SHARED = -shared
 $(LIB): $(LIB_OBJS)
 	g++ $(SHARED) -o $(LIB) $(LIB_OBJS)
 
+MY_CFLAGS = -c $(EFLAGS)
 
+
+$(TEST_DRIVER_EXE): $(TEST_DRIVER_OBJS)
+	g++ $(INCLUDES) -o $@ $^
+
+$(MODEL_OBJ)%.o:
+	g++ $(DEBUG) $(INCLUDES) $(MY_CFLAGS) -o $@ $<
+
+$(CONT_OBJ)%.o:
+	g++ $(DEBUG) $(INCLUDES) $(MY_CFLAGS) -o $@ $<
+
+$(TEST_DRIVER_OBJ)%.o:
+	g++ $(DEBUG) $(INCLUDES) $(MY_CFLAGS) -o $@ $< 
 
 
 ################################################################################
@@ -192,3 +238,30 @@ $(VIEW_OBJ)ChessGuiImages.o: $(VIEW_SRC)ChessGuiImages.cpp $(VIEW_INC)ChessGuiIm
 $(VIEW_OBJ)SelectDialog.o: $(VIEW_SRC)SelectDialog.cpp
 	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) -o $(VIEW_OBJ)SelectDialog.o -c $(EFLAGS) $(PIC) $(VIEW_SRC)SelectDialog.cpp
 
+
+# Make dependencies
+$(MODEL_DEP):
+	 for CPP_FILE in $(MODEL_SRC)*.cpp; do\
+	   CPP_BASE=$$(basename $$CPP_FILE);\
+	   CPP_BASE_NO_EXT=$${CPP_BASE%%\.*};\
+	   g++ $(INCLUDES) -MT $(MODEL_OBJ)$${CPP_BASE_NO_EXT}.o -MM $$CPP_FILE;\
+	 done > $(MODEL_DEP)
+
+$(CONT_DEP):
+	 for CPP_FILE in $(CONT_SRC)*.cpp; do\
+	   CPP_BASE=$$(basename $$CPP_FILE);\
+	   CPP_BASE_NO_EXT=$${CPP_BASE%%\.*};\
+	   g++ $(INCLUDES) -MT $(CONT_OBJ)$${CPP_BASE_NO_EXT}.o -MM $$CPP_FILE;\
+	 done > $(CONT_DEP)
+
+$(TEST_DRIVER_DEP):
+	for CPP_FILE in $(TEST_DRIVER_SRC)*.cpp; do\
+	   CPP_BASE=$$(basename $$CPP_FILE);\
+	   CPP_BASE_NO_EXT=$${CPP_BASE%%\.*};\
+	   g++ $(INCLUDES) -MT $(TEST_DRIVER_OBJ)$${CPP_BASE_NO_EXT}.o -MM $$CPP_FILE;\
+	 done > $(TEST_DRIVER_DEP)
+
+
+include $(MODEL_DEP)
+include $(CONT_DEP)
+include $(TEST_DRIVER_DEP)
