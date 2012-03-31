@@ -9,12 +9,66 @@
 
 #include <gtkmm/main.h>
 #include <glib.h>
+#include <iostream>
+#include <cassert>
+
 #include "ChessGuiImages.h"
 #include "ChessView.h"
 #include "IChessController.h"
+#include "ChessController.h"
+#include "Modes.h"
 
-#include <iostream>
 using namespace std;
+
+
+/**
+ *  Converts the game mode to the appropriate enumeration key.
+ *
+ *  @param IN `pGameMode` The game mode, as entered at the command line
+ *  @return The Modes key corresponding to the `pGameMode` value
+ */
+Modes toModesEnum (const char* pGameMode) {
+  int switchGameMode = atoi(pGameMode);
+  Modes gameMode = hc;
+
+  switch (switchGameMode) {
+    case 1:
+      gameMode = hc;
+      break;
+    case 2:
+      gameMode = ch;
+      break;
+    case 3:
+      gameMode = hh;
+      break;
+    case 4:
+      gameMode = cc;
+      break;
+    default:
+      // input parameter is not a valid enum value
+      assert(0);
+  }
+
+  return gameMode;
+}
+
+
+/**
+ *  Prints usage message to stdout and exits the program
+ *
+ *  @param IN `binName` The name of the Chess binary, as input at the command
+ *    line
+ */
+void usage (const char* binName) {
+  cout << "Usage: " << binName << " MODE\n" << endl;
+  cout << "MODE:" << endl;
+  cout << "\t0 - Human vs. Computer" << endl;
+  cout << "\t1 - Computer vs. Human" << endl;
+  cout << "\t2 - Human vs. Human" << endl;
+  cout << "\t3 - Computer vs. Computer" << endl;
+
+  exit(EXIT_FAILURE);
+}
 
 
 /******************************************************************************/
@@ -26,13 +80,25 @@ using namespace std;
 void connectController(ChessView& view, IChessController ** cont, int argc, char ** argv)
 {
 	// 1. Process command-line args
-	
+  const short EXPECTED_ARGC = 2;
+
+  // validate command line arguments
+  if (EXPECTED_ARGC != argc) {
+    usage(argv[0]);
+  }
+
+  const char* pGameMode = argv[1];
+  Modes gameMode = toModesEnum(pGameMode);
+  
 	// 2. Initialize controller. This is tricky because it's a double pointer.
 	// Example:
 	//		(*cont) = new MyController(parameters);
+  (*cont) = new ChessController(gameMode);
  
 	// 3. Connect the view and controller using the IChessController::SetView 
 	// and IChessView::SetController methods
+  (*cont)->SetView(&view);
+  view.SetController((*cont));
 }
 
 

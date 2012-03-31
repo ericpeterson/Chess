@@ -78,7 +78,7 @@ TEST_DRIVER_O = $(TEST_DRIVER_OBJ)TestDriver.o
 
 # This macro should be used to store all of the object files created 
 # from *your* source files
-MY_OBJS =  
+MY_OBJS = $(CONT_OBJ)ChessController.o
 
 # Test driver object files 
 TEST_DRIVER_OBJS = $(TEST_DRIVER_O) $(MODEL_SRC)*.cpp
@@ -100,19 +100,19 @@ LIB_OBJS = $(VIEW_OBJ)ChessView.o \
 
 runhc: $(EXE)
 	@export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
-	/home/eric/School/Chess/source/lib"; echo "Human vs. Computer";\$(EXE)
+	/home/eric/School/Chess/source/lib"; $(EXE) 1
 
 runch: $(EXE)
 	@export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
-	/home/eric/School/Chess/source/lib"; echo "Computer vs. Human"; $(EXE)
+	/home/eric/School/Chess/source/lib"; $(EXE) 2
 
 runhh: $(EXE)
 	@export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
-	/home/eric/School/Chess/source/lib"; echo "Human vs. Human"; $(EXE)
+	/home/eric/School/Chess/source/lib"; $(EXE) 3
 
 runcc: $(EXE)
 	@export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
-	/home/eric/School/Chess/source/lib"; echo "Computer vs. Computer"; $(EXE)
+	/home/eric/School/Chess/source/lib"; $(EXE) 4
 
 bin: $(EXE)
 
@@ -208,13 +208,13 @@ $(TEST_DRIVER_EXE): $(TEST_DRIVER_OBJS)
 	g++ $(INCLUDES) -o $@ $^
 
 $(MODEL_OBJ)%.o:
-	g++ $(DEBUG) $(INCLUDES) $(MY_CFLAGS) -o $@ $<
+	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) $(LOG_FLAG) $(MY_CFLAGS) -o $@ $<
 
 $(CONT_OBJ)%.o:
-	g++ $(DEBUG) $(INCLUDES) $(MY_CFLAGS) -o $@ $<
+	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) $(LOG_FLAG) $(MY_CFLAGS) -o $@ $<
 
 $(TEST_DRIVER_OBJ)%.o:
-	g++ $(DEBUG) $(INCLUDES) $(MY_CFLAGS) -o $@ $< 
+	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) $(LOG_FLAG) $(MY_CFLAGS) -o $@ $< 
 
 
 ################################################################################
