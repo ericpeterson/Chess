@@ -77,6 +77,11 @@ class ChessController: public IChessController {
      * Set the IChessView that this IChessController will handle inputs for.
      */
     virtual void SetView(IChessView* view);
+
+  private:
+
+    // The mode of the chess game that this controller directs
+    Modes mode;
 };
 
 #endif

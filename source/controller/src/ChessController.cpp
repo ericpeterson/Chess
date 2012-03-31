@@ -2,8 +2,7 @@
 #include "ChessController.h"
 #include "Modes.h"
 
-
-ChessController::ChessController (Modes gameMode) {}
+ChessController::ChessController (Modes gameMode): mode(gameMode) {}
 
 
 ChessController::~ChessController() {}
