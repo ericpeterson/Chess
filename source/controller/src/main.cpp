@@ -93,12 +93,13 @@ void connectController(ChessView& view, IChessController ** cont, int argc, char
 	// 2. Initialize controller. This is tricky because it's a double pointer.
 	// Example:
 	//		(*cont) = new MyController(parameters);
-  (*cont) = new ChessController(gameMode);
+  IChessController* controller = (*cont);
+  controller = new ChessController(gameMode);
  
 	// 3. Connect the view and controller using the IChessController::SetView 
 	// and IChessView::SetController methods
-  (*cont)->SetView(&view);
-  view.SetController((*cont));
+  controller->SetView(&view);
+  view.SetController(controller);
 }
 
 

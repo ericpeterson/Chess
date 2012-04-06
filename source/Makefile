@@ -78,7 +78,8 @@ TEST_DRIVER_O = $(TEST_DRIVER_OBJ)TestDriver.o
 
 # This macro should be used to store all of the object files created 
 # from *your* source files
-MY_OBJS = $(CONT_OBJ)ChessController.o
+MY_OBJS = $(CONT_OBJ)ChessController.o $(MODEL_OBJ)Board.o\
+  $(MODEL_OBJ)BoardPosition.o $(MODEL_OBJ)Square.o
 
 # Test driver object files 
 TEST_DRIVER_OBJS = $(TEST_DRIVER_O) $(MODEL_SRC)*.cpp

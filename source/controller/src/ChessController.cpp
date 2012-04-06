@@ -2,7 +2,8 @@
 #include "ChessController.h"
 #include "Modes.h"
 
-ChessController::ChessController (Modes gameMode): mode(gameMode) {}
+
+ChessController::ChessController (Modes gameMode): m_mode(gameMode), m_pView(NULL) {}
 
 
 ChessController::~ChessController() {}
@@ -19,7 +20,9 @@ bool ChessController::on_DragEnd(int row,int col) {
 }
 
 
-void ChessController::on_NewGame() {}
+void ChessController::on_NewGame() {
+  
+}
 
 
 void ChessController::on_SaveGame() {}
@@ -40,5 +43,7 @@ void ChessController::on_QuitGame() {}
 void ChessController::on_TimerEvent() {}
 
 
-void ChessController::SetView(IChessView* view) {}
+void ChessController::SetView(IChessView* view) {
+  m_pView = view;
+}
 
