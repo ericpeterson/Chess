@@ -5,6 +5,8 @@
 #include "Square.h"
 #include "BoardPosition.h"
 
+BoardPosition::BoardPosition () {}
+
 BoardPosition::BoardPosition (const short row, const short col) : m_positionSquare(row, col) {}
 
 

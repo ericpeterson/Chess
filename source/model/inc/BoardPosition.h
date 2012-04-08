@@ -6,6 +6,10 @@
 class BoardPosition {
   public:
 
+    // Default constructor
+    BoardPosition ();
+
+
     /**
      *  Constructor
      *

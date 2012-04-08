@@ -49,20 +49,35 @@ class ChessMaster {
 
 
     // @return A pointer to the current chess board
-    Board* GetBoard ();
+    Board* GetBoard () const;
 
 
     // @return BLACK if is the black player's turn; WHITE if it is the white
     // player's turn.
-    ChessColor GetTurn ();
+    ChessColor GetTurn () const;
 
   private:
 
     // The current board layout
-    Board* board;
+    Board* m_board;
 
     // Keeps tracks of whose turn it is
-    ChessColor turn;
+    ChessColor m_turn;
+
+
+    /**
+     *  Helper function for overloaded assignment operator and copy constructor
+     *
+     *  @param IN `chessMaster` The ChessMaster object to be copied
+     */
+    ChessMaster & copy (const ChessMaster & chessMaster);
+
+
+    /**
+     *  Helper function for overloaded assignment operator and destructor.
+     *  Frees heap memory used by this ChessMaster object.
+     */
+    void free ();
 };
 
 #endif

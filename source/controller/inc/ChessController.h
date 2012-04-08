@@ -5,6 +5,7 @@
 #include "IChessController.h"
 #include "Modes.h"
 #include "IChessPlayer.h"
+#include "ChessMaster.h"
 
 class ChessController: public IChessController {
   public:
@@ -16,6 +17,14 @@ class ChessController: public IChessController {
      *    Human, Human vs. Human, or Computer vs. Computer.
      */
     ChessController (Modes gameMode);
+
+
+    /**
+     *  Copy constructor
+     *
+     *  @param IN `chessController` The ChessController object to copy
+     */
+    ChessController (const ChessController & chessController);
     
 
     /**
@@ -23,7 +32,16 @@ class ChessController: public IChessController {
      */
     virtual ~ChessController();
 
-    
+   
+    /**
+     *  Overloaded assignment operator
+     *
+     *  @param IN `chessController` The ChessController object to copy
+     *  @return A reference to this ChessController object
+     */
+    ChessController & operator = (const ChessController & chessController);
+
+ 
     /**
      * Indicate to the player that the user clicked on the given
      * row and column with the mouse.
@@ -98,11 +116,30 @@ class ChessController: public IChessController {
     // A pointer to the view (GUI layer) of this games
     IChessView* m_pView;
 
+    // A pointer to the facade class
+    ChessMaster* m_chessMaster;
+
     // Pointer to the white player
     IChessPlayer* m_whitePlayer;
 
     // Pointer to the black player
     IChessPlayer* m_blackPlayer;
+
+
+    /**
+     *  Helper function for copy constructor and overloaded = operator
+     *
+     *  @param IN `chessController` The ChessController object to copy
+     *  @return A reference to this ChessController object
+     */
+    ChessController & copy (const ChessController & chessController);
+
+
+    /**
+     *  Helper function for destructor and overloaded = operator. Frees heap
+     *  memory used by ChessController.
+     */
+    void free ();
 };
 
 #endif
