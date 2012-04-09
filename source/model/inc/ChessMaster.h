@@ -3,6 +3,7 @@
 
 #include "Board.h"
 #include "ChessColor.h"
+#include "History.h"
 
 class ChessMaster {
   public:
@@ -52,6 +53,9 @@ class ChessMaster {
     Board* GetBoard () const;
 
 
+    // @return A pointer to the move history
+    History* GetHistory () const;
+
     // @return BLACK if is the black player's turn; WHITE if it is the white
     // player's turn.
     ChessColor GetTurn () const;
@@ -60,6 +64,9 @@ class ChessMaster {
 
     // The current board layout
     Board* m_board;
+
+    // The move history
+    History* m_history;
 
     // Keeps tracks of whose turn it is
     ChessColor m_turn;

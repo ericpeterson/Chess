@@ -1,9 +1,9 @@
 #include "Board.h"
 #include "ChessColor.h"
+#include "History.h"
 #include "ChessMaster.h"
 
-
-ChessMaster::ChessMaster () : m_board(new Board()), m_turn(WHITE) {}
+ChessMaster::ChessMaster () : m_board(new Board()), m_history(new History()), m_turn(WHITE) {}
 
 
 ChessMaster::ChessMaster (const ChessMaster & chessMaster) {
@@ -34,6 +34,11 @@ bool ChessMaster::IsStaleMate () {
 
 Board* ChessMaster::GetBoard () const {
   return m_board;
+}
+
+
+History* ChessMaster::GetHistory () const {
+  return m_history;
 }
 
 

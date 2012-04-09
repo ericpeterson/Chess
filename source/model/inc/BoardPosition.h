@@ -128,6 +128,14 @@ class BoardPosition {
      */
     bool MoveDownRight (const short numTimes);
 
+
+    // @return The row of this position
+    short GetRow ();
+
+
+    // @return The column of this position
+    short GetCol ();    
+
   private:
   
     // row-column pair

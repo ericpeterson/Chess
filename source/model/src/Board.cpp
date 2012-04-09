@@ -18,7 +18,7 @@ Board::Board () {
 
   for (int i = 0; i < NUM_COL; i++) {
     Board::AddPiece(0, i, blackPieces[i]);
-    Board::AddPiece(0, i, whitePieces[i]);
+    Board::AddPiece(7, i, whitePieces[i]);
     Board::AddPiece(1, i, B_PAWN);
     Board::AddPiece(6, i, W_PAWN);
   }
@@ -61,8 +61,9 @@ bool Board::RemovePiece (const ImageName & piece) {
   // start with an invalid board position
   BoardPosition positionOfPiece(-1, -1);
   map<BoardPosition, ImageName>::iterator it;
+  map<BoardPosition, ImageName>::iterator endIt = m_board.end();
 
-  for (it = m_board.begin(); it != m_board.end(); it++) {
+  for (it = m_board.begin(); it != endIt; it++) {
     if (it->second == piece) {
       positionOfPiece = it->first;
       break;
@@ -80,6 +81,11 @@ bool Board::RemovePiece (const ImageName & piece) {
   }
 
   return result;
+}
+
+
+map<BoardPosition, ImageName> & Board::GetBoardMap () {
+  return m_board;
 }
 
 

@@ -108,6 +108,15 @@ class ChessController: public IChessController {
      */
     virtual void SetView(IChessView* view);
 
+
+    /**
+     *  Draws the current board to the GUI
+     *
+     *  @param IN `board` The board to draw
+     */
+    void DrawBoard (Board* board);
+ 
+
   private:
 
     // The mode of the chess game that this controller directs

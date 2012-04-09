@@ -66,6 +66,10 @@ class Board {
      */
     bool RemovePiece (const ImageName & piece);
 
+
+    // @return The map representation of this board
+    std::map<BoardPosition, ImageName> & GetBoardMap ();
+
   private:
 
     // A mapping of piece location (Square) to each game piece

@@ -1,10 +1,13 @@
+#include <map>
+
 #include "IChessView.h"
 #include "ChessController.h"
 #include "Modes.h"
 
+using namespace std;
 
 ChessController::ChessController (Modes gameMode): m_mode(gameMode),
-  m_pView(NULL), m_chessMaster(new ChessMaster), m_whitePlayer(NULL), m_blackPlayer(NULL)  {}
+  m_pView(NULL), m_chessMaster(new ChessMaster()), m_whitePlayer(NULL), m_blackPlayer(NULL)  {}
 
 
 ChessController::ChessController(const ChessController & chessController) {
@@ -35,7 +38,12 @@ bool ChessController::on_DragEnd(int row,int col) {
 
 
 void ChessController::on_NewGame() {
-  
+  delete m_chessMaster;
+  m_chessMaster = new ChessMaster();
+
+  Board* board = m_chessMaster->GetBoard();
+
+  ChessController::DrawBoard(board);
 }
 
 
@@ -59,6 +67,22 @@ void ChessController::on_TimerEvent() {}
 
 void ChessController::SetView(IChessView* view) {
   m_pView = view;
+}
+
+
+void ChessController::DrawBoard (Board* board) {
+  map<BoardPosition, ImageName>::iterator it;
+  map<BoardPosition, ImageName> boardMap = board->GetBoardMap();
+  map<BoardPosition, ImageName>::iterator endIt = boardMap.end();
+
+  for (it = boardMap.begin(); it != endIt; it++) {
+    BoardPosition currentPosition = it->first;
+    int row = currentPosition.GetRow();
+    int col = currentPosition.GetCol();
+    ImageName currentPiece = it->second;
+
+    m_pView->PlacePiece(row, col, currentPiece);
+  }
 }
 
 

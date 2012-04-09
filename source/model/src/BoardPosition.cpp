@@ -160,6 +160,16 @@ bool BoardPosition::MoveDownRight (const short numTimes) {
 }
 
 
+short BoardPosition::GetRow () {
+  return m_positionSquare.row;
+}
+
+
+short BoardPosition::GetCol () {
+  return m_positionSquare.col;
+}
+
+
 BoardPosition & BoardPosition::copy (const BoardPosition & boardPosition) {
   if (this != &boardPosition) {
     m_positionSquare = boardPosition.m_positionSquare;
