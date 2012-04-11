@@ -1,8 +1,14 @@
 #include <map>
+#include <fstream>
+
+#include "HTMLTokenizer.h"
+#include "CS240Exception.h"
 
 #include "IChessView.h"
 #include "ChessController.h"
 #include "Modes.h"
+#include "ChessGuiDefines.h"
+#include "IPiece.h"
 
 using namespace std;
 
@@ -41,9 +47,7 @@ void ChessController::on_NewGame() {
   delete m_chessMaster;
   m_chessMaster = new ChessMaster();
 
-  Board* board = m_chessMaster->GetBoard();
-
-  ChessController::DrawBoard(board);
+  ChessController::DrawBoard();
 }
 
 
@@ -53,7 +57,27 @@ void ChessController::on_SaveGame() {}
 void ChessController::on_SaveGameAs() {}
 
 
-void ChessController::on_LoadGame() {}
+void ChessController::on_LoadGame() {
+  string fileName = m_pView->SelectLoadFile();
+  ifstream loadFile(fileName.c_str());
+
+  if (!loadFile.is_open()) {
+    throw CS240Exception("Error: file was not opened");
+  }
+
+  // read in the file -- loadFile
+  string xmlContents = ChessController::ReadFile(loadFile);
+
+  // close the file
+  loadFile.close();
+
+  // parse xml tokens and update memory state
+  ChessController::UpdateState(xmlContents);
+
+  // Redraw the board
+  ChessController::ClearBoard();
+  ChessController::DrawBoard();
+}
 
 
 void ChessController::on_UndoMove() {}
@@ -70,19 +94,26 @@ void ChessController::SetView(IChessView* view) {
 }
 
 
-void ChessController::DrawBoard (Board* board) {
-  map<BoardPosition, ImageName>::iterator it;
-  map<BoardPosition, ImageName> boardMap = board->GetBoardMap();
-  map<BoardPosition, ImageName>::iterator endIt = boardMap.end();
+void ChessController::DrawBoard () {
+  Board* board = m_chessMaster->GetBoard();
+  map<BoardPosition, IPiece*> boardMap = board->GetBoardMap();
+  map<BoardPosition, IPiece*>::iterator endIt = boardMap.end();
+  map<BoardPosition, IPiece*>::iterator it;
 
   for (it = boardMap.begin(); it != endIt; it++) {
     BoardPosition currentPosition = it->first;
     int row = currentPosition.GetRow();
     int col = currentPosition.GetCol();
-    ImageName currentPiece = it->second;
+    IPiece* currentPiece = it->second;
+    ImageName currentPieceType = currentPiece->GetType();
 
-    m_pView->PlacePiece(row, col, currentPiece);
+    m_pView->PlacePiece(row, col, currentPieceType);
   }
+}
+
+
+void ChessController::ClearBoard () {
+
 }
 
 
@@ -102,3 +133,26 @@ ChessController & ChessController::copy (const ChessController & chessController
 void ChessController::free () {
   delete m_chessMaster;
 }
+
+
+string ChessController::ReadFile (ifstream & file) {
+  string fileContents;
+  string buffer;
+
+  while (file.good()) {
+    getline(file, buffer);
+    fileContents.append(buffer);
+  }
+
+  return fileContents;
+}
+
+
+void ChessController::UpdateState (std::string xmlFile) {
+  HTMLTokenizer tokenizer(xmlFile);
+
+  while (tokenizer.HasNextToken()) {
+    // tokenizer.GetNextToken();
+  }
+}
+

@@ -6,6 +6,9 @@
 #include "ChessGuiDefines.h"
 
 #include "BoardPosition.h"
+#include "IPiece.h"
+
+class IPiece;
 
 class Board {
   public:
@@ -42,7 +45,7 @@ class Board {
      *  @param IN `col` The column of the board position
      *  @return The piece at the board position
      */ 
-    ImageName PieceAtPosition (const short row, const short col);
+    IPiece* PieceAtPosition (const short row, const short col);
 
 
     /**
@@ -54,26 +57,26 @@ class Board {
      *  @return true if the piece was successfully added to the board; false
      *    otherwise.
      */
-    bool AddPiece (const short row, const short col, const ImageName & piece);
+    bool AddPiece (const short row, const short col, IPiece* piece);
 
 
     /**
      *  Removes a piece from the board
      *
-     *  @param IN `piece` The piece to remove from the board
+     *  @param IN `position` The position of the piece to remove
      *  @return true if the piece was successfully removed from the board;
      *    false otherwise.
      */
-    bool RemovePiece (const ImageName & piece);
+    bool RemovePiece (const BoardPosition & position);
 
 
     // @return The map representation of this board
-    std::map<BoardPosition, ImageName> & GetBoardMap ();
+    std::map<BoardPosition, IPiece*> & GetBoardMap ();
 
   private:
 
     // A mapping of piece location (Square) to each game piece
-    std::map<BoardPosition, ImageName> m_board;
+    std::map<BoardPosition, IPiece*> m_board;
 
 
     /**
@@ -83,6 +86,12 @@ class Board {
      *  @return A reference to this Board object.
      */
     Board & copy (const Board & board);
+
+    
+    /**
+     *  Deletes heap memory used by this Board object
+     */
+    void free ();
 };
 
 #endif

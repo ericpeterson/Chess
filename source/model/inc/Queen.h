@@ -1,5 +1,5 @@
-#ifndef _KING_H_
-#define _KING_H_
+#ifndef _QUEEN_H_
+#define _QUEEN_H_
 
 #include <iostream>
 #include <set>
@@ -7,40 +7,41 @@
 #include "ChessGuiDefines.h"
 
 #include "ChessColor.h"
+#include "ChessMove.h"
 #include "IPiece.h"
 
-class King: public IPiece {
+class Queen: public IPiece {
   public:
 
     /**
      *  Constructor
      *
-     *  @param IN `c` The chess color of this piece
+     *  @param IN `c` The color of this piece
      *  @param IN `t` The type of this piece
      */
-    King (ChessColor c, ImageName t);
+    Queen (ChessColor c, ImageName t);
 
-    
+
     /**
      *  Copy constructor
      *
-     *  @param IN `king` The King object to copy
+     *  @param IN `queen` The Queen object to be copied
      */
-    King (const King & king);
+    Queen (const Queen & queen);
 
 
     // Destructor
-    virtual ~King ();
+    virtual ~Queen ();
 
 
     /**
      *  Overloaded assignment operator
      *
-     *  @param IN `king` The King object to copy
-     *  @return A reference to this King object
+     *  @param IN `queen` The Queen object to be copied
+     *  @return A reference to this Queen object
      */
-    King & operator = (const King & king);
-
+    Queen & operator = (const Queen & queen);
+   
 
     /**
      *  Gets all the legal moves of this piece
@@ -59,15 +60,17 @@ class King: public IPiece {
      */
     static bool Test (std::ostream & os);
 
+
   private:
 
     /**
      *  Helper function for overloaded = operator and copy constructor
-     *
-     *  @param IN `king` The King object to copy
-     *  @return A reference to this King object
+     * 
+     *  @param IN `queen` The Queen object to be copied
+     *  @return A reference to this Queen object
      */
-    King & copy (const King & king);
+    Queen & copy (const Queen & queen);
 }; 
 
 #endif
+

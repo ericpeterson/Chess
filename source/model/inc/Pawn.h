@@ -1,5 +1,5 @@
-#ifndef _KING_H_
-#define _KING_H_
+#ifndef _PAWN_H_
+#define _PAWN_H_
 
 #include <iostream>
 #include <set>
@@ -7,39 +7,39 @@
 #include "ChessGuiDefines.h"
 
 #include "ChessColor.h"
-#include "IPiece.h"
+#include "ChessMove.h"
 
-class King: public IPiece {
+class Pawn: public IPiece {
   public:
 
     /**
      *  Constructor
      *
-     *  @param IN `c` The chess color of this piece
+     *  @param IN `c` The color of this piece
      *  @param IN `t` The type of this piece
      */
-    King (ChessColor c, ImageName t);
+    Pawn (ChessColor c, ImageName t);
 
-    
+
     /**
      *  Copy constructor
      *
-     *  @param IN `king` The King object to copy
+     *  @param IN `pawn` The Pawn object to be copied
      */
-    King (const King & king);
-
+    Pawn (const Pawn & pawn);
+   
 
     // Destructor
-    virtual ~King ();
+    virtual ~Pawn ();
 
 
     /**
      *  Overloaded assignment operator
      *
-     *  @param IN `king` The King object to copy
-     *  @return A reference to this King object
+     *  @param IN `pawn` The Pawn object to be copied
+     *  @return A reference to this Pawn
      */
-    King & operator = (const King & king);
+    Pawn & operator = (const Pawn & pawn);
 
 
     /**
@@ -62,12 +62,12 @@ class King: public IPiece {
   private:
 
     /**
-     *  Helper function for overloaded = operator and copy constructor
+     *  Helper function for overloaded = and copy constructor
      *
-     *  @param IN `king` The King object to copy
-     *  @return A reference to this King object
+     *  @param IN `pawn` The Pawn object to be copied
+     *  @return A reference to this Pawn
      */
-    King & copy (const King & king);
+    Pawn & copy (const Pawn & pawn);
 }; 
 
 #endif

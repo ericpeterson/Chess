@@ -54,7 +54,10 @@ CONT_DEP = controller/dep/make.dep
 TEST_DRIVER_SRC = test/src/
 TEST_DRIVER_OBJ = test/obj/
 TEST_DRIVER_DEP = test/dep/make.dep
+UTILS_SRC = utils/src/
 UTILS_INC = utils/inc/
+UTILS_OBJ = utils/obj/
+UTILS_DEP = utils/dep/make.dep
 EXE = bin/chess			# normal executable
 MEXE = bin/mchess			# executable for memory testing
 TEST_DRIVER_EXE = bin/test-driver
@@ -78,9 +81,17 @@ TEST_DRIVER_O = $(TEST_DRIVER_OBJ)TestDriver.o
 
 # This macro should be used to store all of the object files created 
 # from *your* source files
-MY_OBJS = $(CONT_OBJ)ChessController.o $(MODEL_OBJ)Board.o\
-  $(MODEL_OBJ)BoardPosition.o $(MODEL_OBJ)Square.o $(MODEL_OBJ)ChessMaster.o\
-  $(MODEL_OBJ)History.o
+MY_CONT_OBJS = $(CONT_OBJ)BlackPlayer.o $(CONT_OBJ)ChessController.o\
+  $(CONT_OBJ)WhitePlayer.o
+
+MODEL_SRC_FILES = $(subst src,obj,$(wildcard $(MODEL_SRC)*.cpp))
+MY_MODEL_OBJS = $(MODEL_SRC_FILES:.cpp=.o)
+
+MY_OBJS = $(MY_CONT_OBJS) $(MY_MODEL_OBJS)
+
+CS_LIB_OBJS = $(UTILS_OBJ)CommandRunner.o $(UTILS_OBJ)FileInputStream.o\
+  $(UTILS_OBJ)FileSystem.o $(UTILS_OBJ)HTMLToken.o $(UTILS_OBJ)HTMLTokenizer.o\
+  $(UTILS_OBJ)HTTPInputStream.o $(UTILS_OBJ)StringUtil.o $(UTILS_OBJ)URLInputStream.o
 
 # Test driver object files 
 TEST_DRIVER_OBJS = $(TEST_DRIVER_O) $(MODEL_SRC)*.cpp
@@ -139,6 +150,7 @@ clean:
 	@rm -f $(MODEL_OBJ)*.o
 	@rm -f $(VIEW_OBJ)*.o
 	@rm -f $(CONT_OBJ)*.o
+	@rm -f $(UTILS_OBJ)*.o
 	@rm -f $(TEST_DRIVER_OBJ)*.o
 	@rm -f $(EXE)
 	@rm -f $(MEXE)
@@ -149,6 +161,7 @@ clean-dep:
 	@rm -f $(MODEL_DEP)
 	@rm -f $(CONT_DEP)
 	@rm -f $(TEST_DRIVER_DEP)
+	@rm -f $(UTILS_DEP)
 
 .PHONY: runhc runch runhh runcc bin test memcheck lib clean 
 
@@ -171,15 +184,15 @@ LFLAGS = -L./lib -lchessgui
 # the executable should be dependent on, and link in the library file, not the 
 # .o files! That means, instead of linking in $(LIB_OBJS) below, you should link
 # in the actual library file.
-$(EXE): $(MAIN_O) $(MY_OBJS) $(LIB)
+$(EXE): $(MAIN_O) $(MY_OBJS) $(LIB) $(CS_LIB_OBJS)
 	@# Re-link executable. Again, this should link the library file, not the .o's
-	g++ $(INCLUDES) -o $(EXE) $(MAIN_O) $(MY_OBJS) $(CFLAGS) $(LFLAGS) $(LIBS) 
+	g++ $(INCLUDES) -o $(EXE) $(MAIN_O) $(MY_OBJS) $(CS_LIB_OBJS) $(CFLAGS) $(LFLAGS) $(LIBS) 
 	chmod ugo+x $(EXE)
 
 # Executable for memory testing
-$(MEXE): $(MEMMAIN_O) $(MY_OBJS) $(LIB)
+$(MEXE): $(MEMMAIN_O) $(MY_OBJS) $(LIB) $(CS_LIB_OBJS)
 	@# Re-link executable. Again, this should link the library file, not the .o's
-	g++ $(INCLUDES) -o $(MEXE) $(MEMMAIN_O) $(MY_OBJS) $(CFLAGS) $(LFLAGS) $(LIBS)
+	g++ $(INCLUDES) -o $(MEXE) $(MEMMAIN_O) $(MY_OBJS) $(CS_LIB_OBJS) $(CFLAGS) $(LFLAGS) $(LIBS)
 	chmod ugo+x $(MEXE)
 	
 
@@ -213,6 +226,9 @@ $(MODEL_OBJ)%.o:
 	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) $(LOG_FLAG) $(MY_CFLAGS) -o $@ $<
 
 $(CONT_OBJ)%.o:
+	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) $(LOG_FLAG) $(MY_CFLAGS) -o $@ $<
+
+$(UTILS_OBJ)%.o:
 	g++ $(DEBUG) $(INCLUDES) $(CFLAGS) $(LIBS) $(LOG_FLAG) $(MY_CFLAGS) -o $@ $<
 
 $(TEST_DRIVER_OBJ)%.o:
@@ -268,7 +284,14 @@ $(TEST_DRIVER_DEP):
 	   g++ $(INCLUDES) -MT $(TEST_DRIVER_OBJ)$${CPP_BASE_NO_EXT}.o -MM $$CPP_FILE;\
 	 done > $(TEST_DRIVER_DEP)
 
+$(UTILS_DEP):
+	@for CPP_FILE in $(UTILS_SRC)*.cpp; do\
+	   CPP_BASE=$$(basename $$CPP_FILE);\
+	   CPP_BASE_NO_EXT=$${CPP_BASE%%\.*};\
+	   g++ $(INCLUDES) -MT $(UTILS_OBJ)$${CPP_BASE_NO_EXT}.o -MM $$CPP_FILE;\
+	 done > $(UTILS_DEP)
 
 include $(MODEL_DEP)
 include $(CONT_DEP)
 include $(TEST_DRIVER_DEP)
+include $(UTILS_DEP)

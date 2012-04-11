@@ -1,6 +1,8 @@
 #ifndef _CHESS_CONTROLLER_H_
 #define _CHESS_CONTROLLER_H_
 
+#include <fstream>
+
 #include "IChessView.h"
 #include "IChessController.h"
 #include "Modes.h"
@@ -79,7 +81,9 @@ class ChessController: public IChessController {
 
 
     /**
-     * Handle when the user selected the load game button.
+     *  Handle when the user selected the load game button.
+     *
+     *  @throws CS240Exception if the file was not opened properly
      */
     virtual void on_LoadGame();
 
@@ -111,11 +115,14 @@ class ChessController: public IChessController {
 
     /**
      *  Draws the current board to the GUI
-     *
-     *  @param IN `board` The board to draw
      */
-    void DrawBoard (Board* board);
+    void DrawBoard ();
  
+
+    /**
+     *  Clears the current board in the GUI
+     */
+    void ClearBoard ();
 
   private:
 
@@ -149,6 +156,22 @@ class ChessController: public IChessController {
      *  memory used by ChessController.
      */
     void free ();
+
+
+    /**
+     *  Reads the contents of a file into memory
+     *
+     *  @param IN `file` The file to read
+     */
+    std::string ReadFile (std::ifstream & file);
+
+
+    /**
+     *  Parses the xml file and updates the memory state of the game
+     *
+     *  @param IN `xmlFile` The xml file contents
+     */
+    void UpdateState (std::string xmlFile);
 };
 
 #endif
