@@ -50,13 +50,23 @@ class BoardPosition {
 
 
     /**
+     *  Overloaded == operator
+     *
+     *  @param IN `boardPosition` The BoardPosition object to copy
+     *  @return true if this BoardPosition is equal to `boardPosition`; false
+     *    otherwise.
+     */
+    bool operator == (const BoardPosition & boardPosition) const;
+
+
+    /**
      *  Translates this boards position up a number of squares
      *
      *  @param IN `numTimes` The number of times to move this board position
      *  @return true if the position was successfully translated; false
      *    otherwise.
      */
-    bool MoveUp (const short numTimes);
+    BoardPosition MoveUp (const short numTimes);
 
 
     /**
@@ -66,7 +76,7 @@ class BoardPosition {
      *  @return true if the position was successfully translated; false
      *    otherwise.
      */
-    bool MoveDown (const short numTimes);
+    BoardPosition MoveDown (const short numTimes);
 
 
     /**
@@ -76,7 +86,7 @@ class BoardPosition {
      *  @return true if the position was successfully translated; false
      *    otherwise.
      */
-    bool MoveLeft (const short numTimes);
+    BoardPosition MoveLeft (const short numTimes);
 
 
     /**
@@ -86,7 +96,7 @@ class BoardPosition {
      *  @return true if the position was successfully translated; false
      *    otherwise.
      */
-    bool MoveRight (const short numTimes);
+    BoardPosition MoveRight (const short numTimes);
 
 
     /**
@@ -96,7 +106,7 @@ class BoardPosition {
      *  @return true if the position was successfully translated; false
      *    otherwise.
      */
-    bool MoveUpLeft (const short numTimes);
+    BoardPosition MoveUpLeft (const short numTimes);
 
 
     /**
@@ -106,7 +116,7 @@ class BoardPosition {
      *  @return true if the position was successfully translated; false
      *    otherwise.
      */
-    bool MoveUpRight (const short numTimes);
+    BoardPosition MoveUpRight (const short numTimes);
 
 
     /**
@@ -116,7 +126,7 @@ class BoardPosition {
      *  @return true if the position was successfully translated; false
      *    otherwise.
      */
-    bool MoveDownLeft (const short numTimes);
+    BoardPosition MoveDownLeft (const short numTimes);
 
 
     /**
@@ -126,7 +136,7 @@ class BoardPosition {
      *  @return true if the position was successfully translated; false
      *    otherwise.
      */
-    bool MoveDownRight (const short numTimes);
+    BoardPosition MoveDownRight (const short numTimes);
 
 
     // @return The row of this position

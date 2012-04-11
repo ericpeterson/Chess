@@ -30,7 +30,7 @@ Rook & Rook::operator = (const Rook & rook) {
 }
 
 
-set<BoardPosition> Rook::GetMoves (Board* board, const BoardPosition & position) {
+set<BoardPosition> Rook::GetMoves (Board* board, BoardPosition & position) {
   set<BoardPosition> moves;
 
   return moves;
@@ -53,3 +53,8 @@ Rook & Rook::copy (const Rook & rook) {
   return *this;
 }
 
+
+bool Rook::IsPieceAtPosition (int row, int col, Board* board) {
+  IPiece* piece = board->PieceAtPosition(row, col);
+  return piece != NULL;      
+}

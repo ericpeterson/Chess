@@ -26,16 +26,16 @@ ChessController::ChessController (Modes gameMode): m_mode(gameMode),
 
   switch(gameMode) {
     case hc:
-      m_whitePlayer = new HumanPlayer(m_chessMaster, m_pView);
+      m_whitePlayer = new HumanPlayer(m_chessMaster);
       m_blackPlayer = new ComputerPlayer();
       break;
     case ch:
       m_whitePlayer = new ComputerPlayer();
-      m_blackPlayer = new HumanPlayer(m_chessMaster, m_pView);
+      m_blackPlayer = new HumanPlayer(m_chessMaster);
       break;
     case hh:
-      m_whitePlayer = new HumanPlayer(m_chessMaster, m_pView);
-      m_blackPlayer = new HumanPlayer(m_chessMaster, m_pView);
+      m_whitePlayer = new HumanPlayer(m_chessMaster);
+      m_blackPlayer = new HumanPlayer(m_chessMaster);
       break;
     case cc:
       m_whitePlayer = new ComputerPlayer();
@@ -63,13 +63,10 @@ ChessController & ChessController::operator = (const ChessController & chessCont
 
 void ChessController::on_CellSelected(int row, int col, int button) {
   ChessColor turn =  m_chessMaster->GetTurn();
-  Board* board = m_chessMaster->GetBoard();
-  IPiece* piece = board->PieceAtPosition(row, col);
-  ChessColor pieceColor = piece->GetColor();
 
-  if ((WHITE == turn) && (WHITE == pieceColor)) {
+  if (WHITE == turn) {
     m_whitePlayer->on_CellSelected(row, col, button);
-  } else if ((BLACK == turn) && (BLACK == pieceColor)) {
+  } else if (BLACK == turn) {
     m_blackPlayer->on_CellSelected(row, col, button);
   }
 }
@@ -133,6 +130,9 @@ void ChessController::on_TimerEvent() {
 
 void ChessController::SetView(IChessView* view) {
   m_pView = view;
+  m_whitePlayer->SetView(view);
+  m_blackPlayer->SetView(view);
+  m_whitePlayer->DisplayTurn();
 }
 
 

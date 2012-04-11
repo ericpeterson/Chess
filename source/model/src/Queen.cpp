@@ -31,7 +31,7 @@ Queen & Queen::operator = (const Queen & queen) {
 }
 
 
-set<BoardPosition> Queen::GetMoves (Board* board, const BoardPosition & position) {
+set<BoardPosition> Queen::GetMoves (Board* board, BoardPosition & position) {
   set<BoardPosition> moves;
 
   return moves;
@@ -54,3 +54,8 @@ Queen & Queen::copy (const Queen & queen) {
   return *this;
 }
 
+
+bool Queen::IsPieceAtPosition (int row, int col, Board* board) {
+  IPiece* piece = board->PieceAtPosition(row, col);
+  return piece != NULL;      
+}

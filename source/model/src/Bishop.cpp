@@ -31,7 +31,7 @@ Bishop & Bishop::operator = (const Bishop & bishop) {
 }
 
 
-set<BoardPosition> Bishop::GetMoves (Board* board, const BoardPosition & position) {
+set<BoardPosition> Bishop::GetMoves (Board* board, BoardPosition & position) {
   set<BoardPosition> moves;
 
   return moves;
@@ -54,3 +54,8 @@ Bishop & Bishop::copy (const Bishop & bishop) {
   return *this;
 }
 
+
+bool Bishop::IsPieceAtPosition (int row, int col, Board* board) {
+  IPiece* piece = board->PieceAtPosition(row, col);
+  return piece != NULL;      
+}

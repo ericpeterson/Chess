@@ -30,7 +30,7 @@ King & King::operator = (const King & king) {
 }
 
 
-set<BoardPosition> King::GetMoves (Board* board, const BoardPosition & position) {
+set<BoardPosition> King::GetMoves (Board* board, BoardPosition & position) {
   set<BoardPosition> moves;
 
   return moves;
@@ -53,3 +53,8 @@ King & King::copy (const King & king) {
   return *this;
 }
 
+
+bool King::IsPieceAtPosition (int row, int col, Board* board) {
+  IPiece* piece = board->PieceAtPosition(row, col);
+  return piece != NULL;      
+}

@@ -49,7 +49,7 @@ class King : public IPiece {
      *  @param IN `position` A pointer to this piece's position
      *  @return The set fo all legal moves
      */
-    virtual std::set<BoardPosition> GetMoves (Board* board, const BoardPosition & position);
+    virtual std::set<BoardPosition> GetMoves (Board* board, BoardPosition & position);
 
 
     /**
@@ -58,6 +58,8 @@ class King : public IPiece {
      *  @return true if all tests pass; false otherwise
      */
     static bool Test (std::ostream & os);
+
+    virtual bool IsPieceAtPosition (int row, int col, Board* board);
 
   private:
 

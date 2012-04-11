@@ -31,8 +31,39 @@ Pawn & Pawn::operator = (const Pawn & pawn) {
 }
 
 
-set<BoardPosition> Pawn::GetMoves (Board* board, const BoardPosition & position) {
+set<BoardPosition> Pawn::GetMoves (Board* board, BoardPosition & position) {
   set<BoardPosition> moves;
+  ChessColor color = this->GetColor();
+  int row = position.GetRow();
+
+  if (color == WHITE) {
+    BoardPosition twoMove(position.MoveUp(2));
+
+    // white pawn first move
+    if (row == 6 && !IsPieceAtPosition(twoMove.GetRow(), twoMove.GetCol(), board) && 
+      !IsPositionOffBoard(twoMove.GetRow(), twoMove.GetCol())) {
+      moves.insert(twoMove);
+    }
+
+    BoardPosition oneMove(position.MoveUp(1));
+    if (!IsPieceAtPosition(oneMove.GetRow(), oneMove.GetCol(), board) &&
+      !IsPositionOffBoard(oneMove.GetRow(), oneMove.GetCol())) {
+      moves.insert(oneMove);
+    }
+  } else if (color == BLACK) {
+    // black pawn first move
+    BoardPosition twoMove(position.MoveDown(2));
+    if (row == 1 && !IsPieceAtPosition(twoMove.GetRow(), twoMove.GetCol(), board) &&
+      !IsPositionOffBoard(twoMove.GetRow(), twoMove.GetCol())) {
+      moves.insert(twoMove);
+    }
+
+    BoardPosition oneMove(position.MoveDown(1));
+    if (!IsPieceAtPosition(oneMove.GetRow(), oneMove.GetCol(), board) &&
+      !IsPositionOffBoard(oneMove.GetRow(), oneMove.GetCol())) {
+      moves.insert(oneMove);
+    }
+  }
 
   return moves;
 }
@@ -52,5 +83,11 @@ Pawn & Pawn::copy (const Pawn & pawn) {
   }
 
   return *this;
+}
+
+
+bool Pawn::IsPieceAtPosition (int row, int col, Board* board) {
+  IPiece* piece = board->PieceAtPosition(row, col);
+  return piece != NULL;      
 }
 

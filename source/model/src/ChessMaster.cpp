@@ -50,6 +50,15 @@ ChessColor ChessMaster::GetTurn () const {
 }
 
 
+void ChessMaster::ToggleTurn () {
+  if (WHITE == m_turn) {
+    m_turn = BLACK;
+  } else if (BLACK == m_turn) {
+    m_turn = WHITE;
+  }
+}
+
+
 ChessMaster & ChessMaster::copy (const ChessMaster & chessMaster) {
   if (this != &chessMaster) {
     m_board = chessMaster.m_board;

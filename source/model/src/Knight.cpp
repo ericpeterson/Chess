@@ -29,7 +29,7 @@ Knight & Knight::operator = (const Knight & knight) {
 }
 
 
-std::set<BoardPosition> Knight::GetMoves (Board* board, const BoardPosition & position) {
+std::set<BoardPosition> Knight::GetMoves (Board* board, BoardPosition & position) {
   set<BoardPosition> moves;
 
   return moves;
@@ -52,3 +52,8 @@ Knight & Knight::copy (const Knight & knight) {
   return *this; 
 }
 
+
+bool Knight::IsPieceAtPosition (int row, int col, Board* board) {
+  IPiece* piece = board->PieceAtPosition(row, col);
+  return piece != NULL;      
+}

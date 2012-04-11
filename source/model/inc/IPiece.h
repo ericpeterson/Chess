@@ -26,7 +26,7 @@ class IPiece {
      *  @param IN `position` Piece's current position
      *  @return The set fo all legal moves
      */
-    virtual std::set<BoardPosition> GetMoves (Board* board, const BoardPosition & position) = 0;
+    virtual std::set<BoardPosition> GetMoves (Board* board, BoardPosition & position) = 0;
 
 
     /**
@@ -46,6 +46,14 @@ class IPiece {
     // @return The color of this piece
     virtual ChessColor GetColor () const {
       return m_color;
+    }
+
+
+    virtual bool IsPieceAtPosition (int row, int col, Board* board) = 0;
+
+
+    virtual bool IsPositionOffBoard (int row, int col) {
+      return (row < 0 || row > (NUM_ROW - 1) || col < 0 || col > (NUM_COL - 1)); 
     }
 
   protected:

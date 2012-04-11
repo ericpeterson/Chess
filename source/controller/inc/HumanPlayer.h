@@ -4,6 +4,7 @@
 #include "ChessMaster.h"
 #include "IChessPlayer.h"
 #include "ChessMove.h"
+#include "IChessView.h"
 
 
 class HumanPlayer : public IChessPlayer {
@@ -15,7 +16,7 @@ class HumanPlayer : public IChessPlayer {
      *  @param IN `chessMaster` The game board
      *  @param IN `view` The GUI
      */
-    HumanPlayer (ChessMaster* chessMaster, IChessView* view);  
+    HumanPlayer (ChessMaster* chessMaster, IChessView* view = NULL);  
 
    
     /**
@@ -29,6 +30,9 @@ class HumanPlayer : public IChessPlayer {
      * Handle when the timeout duration has passed.
      */
     virtual void on_TimerEvent();
+
+
+    virtual void SetView (IChessView* m_pView);
 };
 
 #endif

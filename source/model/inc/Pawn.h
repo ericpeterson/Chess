@@ -10,6 +10,7 @@
 #include "ChessMove.h"
 #include "BoardPosition.h"
 
+
 class Pawn: public IPiece {
   public:
 
@@ -50,7 +51,7 @@ class Pawn: public IPiece {
      *  @param IN `position` A pointer to this piece's position
      *  @return The set fo all legal moves
      */
-    virtual std::set<BoardPosition> GetMoves (Board* board, const BoardPosition & position);
+    virtual std::set<BoardPosition> GetMoves (Board* board, BoardPosition & position);
 
 
     /**
@@ -60,6 +61,8 @@ class Pawn: public IPiece {
      */
     static bool Test (std::ostream & os);
 
+
+    virtual bool IsPieceAtPosition (int row, int col, Board* board);
   private:
 
     /**

@@ -60,6 +60,12 @@ class ChessMaster {
     // player's turn.
     ChessColor GetTurn () const;
 
+
+    /**
+     *  Toggles the turns from WHITE to BLACK and vice versa
+     */
+    void ToggleTurn ();
+
   private:
 
     // The current board layout

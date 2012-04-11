@@ -19,14 +19,18 @@ void HumanPlayer::on_CellSelected (int row, int col, int button) {
   Board* board = m_chessMaster->GetBoard();
 
   BoardPosition position(row, col);
-  IPiece* piece = NULL;
   set<BoardPosition> moves;
 
   switch (m_state) {
     case FirstClick:
-      piece = board->PieceAtPosition(row, col);
+      m_piece = board->PieceAtPosition(row, col);
+
+      if (NULL == m_piece) {
+        return;
+      }
+
       m_position = position;
-      moves = piece->GetMoves(board, BoardPosition(row, col));
+      moves = m_piece->GetMoves(board, position);
       this->SetLegalMoves(moves);
       this->HighlightLegalMoves();
       m_state = SecondClick;
@@ -43,6 +47,10 @@ void HumanPlayer::on_CellSelected (int row, int col, int button) {
         board->RemovePiece(m_position);
         board->AddPiece(row, col, m_piece);
         this->AddToHistory(row, col, removedPiece);
+
+        // Change turns
+        m_chessMaster->ToggleTurn();
+        this->DisplayTurn();
       }
 
       this->UnHighlightLegalMoves();
@@ -54,4 +62,9 @@ void HumanPlayer::on_CellSelected (int row, int col, int button) {
 
 
 void HumanPlayer::on_TimerEvent() {}
+
+
+void HumanPlayer::SetView (IChessView* m_pView) {
+  m_view = m_pView;
+}
 

@@ -43,7 +43,7 @@ class Board {
      *
      *  @param IN `row` The row of the board position
      *  @param IN `col` The column of the board position
-     *  @return The piece at the board position
+     *  @return The piece at the board position; NULL if no piece at position
      */ 
     IPiece* PieceAtPosition (const short row, const short col);
 

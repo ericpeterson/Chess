@@ -24,139 +24,128 @@ BoardPosition & BoardPosition::operator = (const BoardPosition & boardPosition) 
 
 
 bool BoardPosition::operator < (const BoardPosition & boardPosition) const {
-  return true;
+  int thisValue = (m_positionSquare.row * NUM_COL) + m_positionSquare.col;
+  int otherValue = (boardPosition.m_positionSquare.row * NUM_COL) +
+    boardPosition.m_positionSquare.col;
+
+  return thisValue < otherValue;
 }
 
 
-bool BoardPosition::MoveUp (const short numTimes) {
-  bool wasMoved = true;
-  short newPosition = m_positionSquare.row - numTimes;
+bool BoardPosition::operator == (const BoardPosition & boardPosition) const {
+  int thisValue = (m_positionSquare.row * NUM_COL) + m_positionSquare.col;
+  int otherValue = (boardPosition.m_positionSquare.row * NUM_COL) +
+    boardPosition.m_positionSquare.col;
+
+  return thisValue == otherValue;
+}
+
+
+BoardPosition BoardPosition::MoveUp (const short numTimes) {
+  short newRow = m_positionSquare.row - numTimes;
+  short newCol = m_positionSquare.col;
 
   // we can't move off the board
-  if (newPosition < 0) {
-    wasMoved = false;
+  if (newRow < 0) {
+    return *this;
   } else {
-    m_positionSquare.row = newPosition;
+    BoardPosition newPosition(newRow, newCol);
+    return newPosition;
   }
-
-  return wasMoved;
 }
 
 
-bool BoardPosition::MoveDown (const short numTimes) {
-  bool wasMoved = true;
-  short newPosition = m_positionSquare.row + numTimes;
+BoardPosition BoardPosition::MoveDown (const short numTimes) {
+  short newRow = m_positionSquare.row + numTimes;
+  short newCol = m_positionSquare.col;
 
   // we can't move off the board
-  if (newPosition > (NUM_ROW - 1)) {
-    wasMoved = false;
+  if (newRow > (NUM_ROW - 1)) {
+    return *this;
   } else {
-    m_positionSquare.row = newPosition;
+    BoardPosition newPosition(newRow, newCol);
+    return newPosition;
   }
-
-  return wasMoved;
 }
 
 
-bool BoardPosition::MoveLeft (const short numTimes) {
-  bool wasMoved = true;
-  short newPosition = m_positionSquare.col - numTimes;
+BoardPosition BoardPosition::MoveLeft (const short numTimes) {
+  short newCol = m_positionSquare.col - numTimes;
+  short newRow = m_positionSquare.row;
 
   // we can't move off the board
-  if (newPosition < 0) {
-    wasMoved = false;
+  if (newCol < 0) {
+    return *this;
   } else {
-    m_positionSquare.col = newPosition;
+    BoardPosition newPosition(newRow, newCol);
+    return newPosition;
   }
-
-  return wasMoved;
 }
 
 
-bool BoardPosition::MoveRight (const short numTimes) {
-  bool wasMoved = true;
-  short newPosition = m_positionSquare.col + numTimes;
+BoardPosition BoardPosition::MoveRight (const short numTimes) {
+  short newCol = m_positionSquare.col + numTimes;
+  short newRow = m_positionSquare.row;
 
   // we can't move off the board
-  if (newPosition > (NUM_COL - 1)) {
-    wasMoved = false;
+  if (newCol > (NUM_COL - 1)) {
+    return *this;
   } else {
-    m_positionSquare.col = newPosition;
+    BoardPosition newPosition(newRow, newCol);
+    return newPosition;
   }
-
-  return wasMoved;
 }
 
 
-bool BoardPosition::MoveUpLeft (const short numTimes) {
-  bool wasMoved = true;
-  short newPositionRow = m_positionSquare.row - numTimes;
-  short newPositionCol = m_positionSquare.col - numTimes;
+BoardPosition BoardPosition::MoveUpLeft (const short numTimes) {
+  short newRow = m_positionSquare.row - numTimes;
+  short newCol = m_positionSquare.col - numTimes;
 
-  if (newPositionRow < 0 || newPositionCol < 0) {
-    wasMoved = false;
+  if (newRow < 0 || newCol < 0) {
+    return *this;
   } else {
-    bool upResult = this->MoveUp(numTimes);
-    bool leftResult = this->MoveLeft(numTimes);
-    assert(upResult);
-    assert(leftResult);
+    BoardPosition newPosition(newRow, newCol);
+    return newPosition;
   }
-
-  return wasMoved;
 }
 
 
-bool BoardPosition::MoveUpRight (const short numTimes) {
-  bool wasMoved = true;
-  short newPositionRow = m_positionSquare.row - numTimes;
-  short newPositionCol = m_positionSquare.col + numTimes;
+BoardPosition BoardPosition::MoveUpRight (const short numTimes) {
+  short newRow = m_positionSquare.row - numTimes;
+  short newCol = m_positionSquare.col + numTimes;
 
-  if (newPositionRow < 0 || newPositionCol > (NUM_COL - 1)) {
-    wasMoved = false;
+  if (newRow < 0 || newCol > (NUM_COL - 1)) {
+    return *this;
   } else {
-    bool upResult = this->MoveUp(numTimes);
-    bool rightResult = this->MoveRight(numTimes);
-    assert(upResult);
-    assert(rightResult);
+    BoardPosition newPosition(newRow, newCol);
+    return newPosition;
   }
-
-  return wasMoved;
 }
 
 
-bool BoardPosition::MoveDownLeft (const short numTimes) {
-  bool wasMoved = true;
-  short newPositionRow = m_positionSquare.row + numTimes;
-  short newPositionCol = m_positionSquare.col - numTimes;
+BoardPosition BoardPosition::MoveDownLeft (const short numTimes) {
+  short newRow = m_positionSquare.row + numTimes;
+  short newCol = m_positionSquare.col - numTimes;
 
-  if (newPositionRow > (NUM_ROW - 1) || newPositionCol < 0) {
-    wasMoved = false;
+  if (newRow > (NUM_ROW - 1) || newCol < 0) {
+    return *this;
   } else {
-    bool downResult = this->MoveDown(numTimes);
-    bool leftResult = this->MoveLeft(numTimes);
-    assert(downResult);
-    assert(leftResult);
+    BoardPosition newPosition(newRow, newCol);
+    return newPosition;
   }
-  
-  return wasMoved;
 }
 
 
-bool BoardPosition::MoveDownRight (const short numTimes) {
-  bool wasMoved = true;
-  short newPositionRow = m_positionSquare.row + numTimes;
-  short newPositionCol = m_positionSquare.col + numTimes;
+BoardPosition BoardPosition::MoveDownRight (const short numTimes) {
+  short newRow = m_positionSquare.row + numTimes;
+  short newCol = m_positionSquare.col + numTimes;
 
-  if (newPositionRow > (NUM_ROW - 1) || newPositionCol > (NUM_COL - 1)) {
-    wasMoved = false;
+  if (newRow > (NUM_ROW - 1) || newCol > (NUM_COL - 1)) {
+    return *this;
   } else {
-    bool downResult = this->MoveDown(numTimes);
-    bool rightResult = this->MoveRight(numTimes);
-    assert(downResult);
-    assert(rightResult);
+    BoardPosition newPosition(newRow, newCol);
+    return newPosition;
   }
-
-  return wasMoved;
 }
 
 

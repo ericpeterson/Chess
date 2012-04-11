@@ -2,6 +2,7 @@
 #define I_CHESS_PLAYER_H
 
 #include <set>
+#include <string>
 
 #include "Board.h"
 #include "BoardPosition.h"
@@ -31,6 +32,25 @@ class IChessPlayer
     virtual void on_TimerEvent() = 0;
 
 
+    // @return A pointer to the ChessMaster
+    virtual ChessMaster* GetChessMaster () {
+      return m_chessMaster;
+    } 
+
+
+    // Displays the current turn on the GUI
+    virtual void DisplayTurn () {
+      std::string label;
+      ChessColor turn = m_chessMaster->GetTurn();
+
+      if (WHITE == turn) {
+        label = "White's Turn";
+      } else if (BLACK == turn) {
+        label = "Black's Turn";
+      }
+
+      m_view->SetTopLabel(label);
+    }
 
   protected:
     
@@ -172,6 +192,8 @@ class IChessPlayer
 
       history->push(move);
     }
+
+    virtual void SetView (IChessView* m_pView) = 0;
 };
 
 #endif

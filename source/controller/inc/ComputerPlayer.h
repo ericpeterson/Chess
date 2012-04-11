@@ -17,6 +17,9 @@ public:
 	 * Handle when the timeout duration has passed.
 	 */
 	virtual void on_TimerEvent();
+
+
+  virtual void SetView (IChessView* m_pView);
 };
 
 #endif
