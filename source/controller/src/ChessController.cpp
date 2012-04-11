@@ -7,13 +7,22 @@
 #include "IChessView.h"
 #include "ChessController.h"
 #include "Modes.h"
+#include "IChessPlayer.h"
+#include "WhitePlayer.h"
+#include "BlackPlayer.h"
+#include "ChessMaster.h"
 #include "ChessGuiDefines.h"
 #include "IPiece.h"
 
 using namespace std;
 
 ChessController::ChessController (Modes gameMode): m_mode(gameMode),
-  m_pView(NULL), m_chessMaster(new ChessMaster()), m_whitePlayer(NULL), m_blackPlayer(NULL)  {}
+  m_pView(NULL), m_chessMaster(NULL), m_whitePlayer(NULL), m_blackPlayer(NULL)  {
+
+  m_chessMaster = new ChessMaster(); 
+  m_whitePlayer = new WhitePlayer();
+  m_blackPlayer = new BlackPlayer();
+}
 
 
 ChessController::ChessController(const ChessController & chessController) {
@@ -32,7 +41,9 @@ ChessController & ChessController::operator = (const ChessController & chessCont
 }
 
 
-void ChessController::on_CellSelected(int row, int col, int button) {}
+void ChessController::on_CellSelected(int row, int col, int button) {
+  
+}
 
 
 void ChessController::on_DragStart(int row,int col) {}
@@ -132,7 +143,12 @@ ChessController & ChessController::copy (const ChessController & chessController
 
 void ChessController::free () {
   delete m_chessMaster;
+  delete m_whitePlayer;
+  delete m_blackPlayer;
+
   m_chessMaster = NULL;
+  m_whitePlayer = NULL;
+  m_blackPlayer = NULL;
 }
 
 
