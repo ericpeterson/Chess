@@ -7,7 +7,7 @@
 
 BoardPosition::BoardPosition () {}
 
-BoardPosition::BoardPosition (const short row, const short col) : m_positionSquare(row, col) {}
+BoardPosition::BoardPosition (short row, short col) : m_positionSquare(row, col) {}
 
 
 BoardPosition::BoardPosition (const BoardPosition & boardPosition) {

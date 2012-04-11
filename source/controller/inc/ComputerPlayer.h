@@ -3,7 +3,7 @@
 
 #include "IChessPlayer.h"
 
-class BlackPlayer: public IChessPlayer {
+class ComputerPlayer : public IChessPlayer {
 public:
  
 	/**

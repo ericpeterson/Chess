@@ -8,6 +8,7 @@
 
 #include "ChessColor.h"
 #include "ChessMove.h"
+#include "BoardPosition.h"
 
 class Pawn: public IPiece {
   public:
@@ -49,7 +50,7 @@ class Pawn: public IPiece {
      *  @param IN `position` A pointer to this piece's position
      *  @return The set fo all legal moves
      */
-    virtual std::set<ChessMove> GetMoves (Board* board, BoardPosition* position);
+    virtual std::set<BoardPosition> GetMoves (Board* board, const BoardPosition & position);
 
 
     /**

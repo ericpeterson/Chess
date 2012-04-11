@@ -7,12 +7,10 @@
 #include "ChessGuiDefines.h"
 
 #include "ChessColor.h"
-#include "ChessMove.h"
 #include "Board.h"
 #include "BoardPosition.h"
 
 class Board;
-struct ChessMove;
 
 class IPiece {
   public:
@@ -25,10 +23,10 @@ class IPiece {
      *  Gets all the legal moves of this piece
      *
      *  @param IN `board` A pointer to the current board
-     *  @param IN `position` A pointer to this piece's position
+     *  @param IN `position` Piece's current position
      *  @return The set fo all legal moves
      */
-    virtual std::set<ChessMove> GetMoves (Board* board, BoardPosition* position) = 0;
+    virtual std::set<BoardPosition> GetMoves (Board* board, const BoardPosition & position) = 0;
 
 
     /**

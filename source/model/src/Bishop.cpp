@@ -5,6 +5,7 @@
 
 #include "ChessColor.h"
 #include "ChessMove.h"
+#include "BoardPosition.h"
 #include "IPiece.h"
 #include "Bishop.h"
 
@@ -30,8 +31,8 @@ Bishop & Bishop::operator = (const Bishop & bishop) {
 }
 
 
-set<ChessMove> Bishop::GetMoves (Board* board, BoardPosition* position) {
-  set<ChessMove> moves;
+set<BoardPosition> Bishop::GetMoves (Board* board, const BoardPosition & position) {
+  set<BoardPosition> moves;
 
   return moves;
 }

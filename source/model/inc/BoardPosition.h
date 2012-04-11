@@ -16,7 +16,7 @@ class BoardPosition {
      *  @param IN `row` The row of the board position
      *  @param IN `col` The column of the board position
      */
-    BoardPosition (const short row, const short col);
+    BoardPosition (short row, short col);
 
 
     /**

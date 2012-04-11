@@ -67,7 +67,7 @@ class Board {
      *  @return true if the piece was successfully removed from the board;
      *    false otherwise.
      */
-    bool RemovePiece (const BoardPosition & position);
+    IPiece* RemovePiece (const BoardPosition & position);
 
 
     // @return The map representation of this board

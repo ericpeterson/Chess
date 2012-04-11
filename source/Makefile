@@ -81,8 +81,8 @@ TEST_DRIVER_O = $(TEST_DRIVER_OBJ)TestDriver.o
 
 # This macro should be used to store all of the object files created 
 # from *your* source files
-MY_CONT_OBJS = $(CONT_OBJ)BlackPlayer.o $(CONT_OBJ)ChessController.o\
-  $(CONT_OBJ)WhitePlayer.o
+MY_CONT_OBJS = $(CONT_OBJ)ComputerPlayer.o $(CONT_OBJ)ChessController.o\
+  $(CONT_OBJ)HumanPlayer.o
 
 MODEL_SRC_FILES = $(subst src,obj,$(wildcard $(MODEL_SRC)*.cpp))
 MY_MODEL_OBJS = $(MODEL_SRC_FILES:.cpp=.o)

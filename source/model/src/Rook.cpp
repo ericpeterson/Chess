@@ -5,6 +5,7 @@
 
 #include "ChessColor.h"
 #include "ChessMove.h"
+#include "BoardPosition.h"
 #include "IPiece.h"
 #include "Rook.h"
 
@@ -29,8 +30,8 @@ Rook & Rook::operator = (const Rook & rook) {
 }
 
 
-set<ChessMove> Rook::GetMoves (Board* board, BoardPosition* position) {
-  set<ChessMove> moves;
+set<BoardPosition> Rook::GetMoves (Board* board, const BoardPosition & position) {
+  set<BoardPosition> moves;
 
   return moves;
 }

@@ -79,8 +79,13 @@ Board & Board::operator = (const Board & board) {
 
 IPiece* Board::PieceAtPosition (const short row, const short col) {
   BoardPosition position(row, col);
+  IPiece* piece = NULL;
 
-  return m_board[position];
+  if (m_board.count(position) > 0) {
+    piece = m_board[position];
+  }
+
+  return piece;
 }
 
 
@@ -95,15 +100,17 @@ bool Board::AddPiece (const short row, const short col, IPiece* piece) {
 }
 
 
-bool Board::RemovePiece (const BoardPosition & position) {
+IPiece* Board::RemovePiece (const BoardPosition & position) {
+  if (m_board.count(position) == 0) {
+    return NULL;
+  }
+
+  IPiece* removedPiece = m_board[position];
+
   // Remove the piece from the map
-  short resultCount = m_board.erase(position);
+  m_board.erase(position);
 
-  // The piece was not in the map if the count is 0
-  bool countIsZero = (resultCount == 0);
-  bool result = countIsZero ? false : true;
-
-  return result;
+  return removedPiece;
 }
 
 

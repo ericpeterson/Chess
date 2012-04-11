@@ -5,6 +5,7 @@
 
 #include "ChessColor.h"
 #include "ChessMove.h"
+#include "BoardPosition.h"
 #include "Knight.h"
 
 using namespace std;
@@ -28,8 +29,8 @@ Knight & Knight::operator = (const Knight & knight) {
 }
 
 
-std::set<ChessMove> Knight::GetMoves (Board* board, BoardPosition* position) {
-  set<ChessMove> moves;
+std::set<BoardPosition> Knight::GetMoves (Board* board, const BoardPosition & position) {
+  set<BoardPosition> moves;
 
   return moves;
 }

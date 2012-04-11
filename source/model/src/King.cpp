@@ -7,6 +7,7 @@
 #include "ChessColor.h"
 #include "IPiece.h"
 #include "King.h"
+#include "BoardPosition.h"
 
 using namespace std;
 
@@ -29,8 +30,8 @@ King & King::operator = (const King & king) {
 }
 
 
-set<ChessMove> King::GetMoves (Board* board, BoardPosition* position) {
-  set<ChessMove> moves;
+set<BoardPosition> King::GetMoves (Board* board, const BoardPosition & position) {
+  set<BoardPosition> moves;
 
   return moves;
 }

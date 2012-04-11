@@ -5,6 +5,7 @@
 
 #include "ChessColor.h"
 #include "ChessMove.h"
+#include "BoardPosition.h"
 #include "IPiece.h"
 #include "Queen.h"
 
@@ -30,8 +31,8 @@ Queen & Queen::operator = (const Queen & queen) {
 }
 
 
-set<ChessMove> Queen::GetMoves (Board* board, BoardPosition* position) {
-  set<ChessMove> moves;
+set<BoardPosition> Queen::GetMoves (Board* board, const BoardPosition & position) {
+  set<BoardPosition> moves;
 
   return moves;
 }

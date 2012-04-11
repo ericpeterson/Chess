@@ -12,7 +12,7 @@ struct Square {
    *  @param IN `r` The row
    *  @param IN `c` The column
    */
-  Square (const short r, const short c);
+  Square (short r, short c);
 
   // The row coordinate of a board position
   short row;

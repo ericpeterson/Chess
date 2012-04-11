@@ -6,6 +6,7 @@
 
 #include "ChessColor.h"
 #include "ChessMove.h"
+#include "BoardPosition.h"
 #include "Pawn.h"
 
 using namespace std;
@@ -30,8 +31,8 @@ Pawn & Pawn::operator = (const Pawn & pawn) {
 }
 
 
-set<ChessMove> Pawn::GetMoves (Board* board, BoardPosition* position) {
-  set<ChessMove> moves;
+set<BoardPosition> Pawn::GetMoves (Board* board, const BoardPosition & position) {
+  set<BoardPosition> moves;
 
   return moves;
 }
