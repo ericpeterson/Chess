@@ -16,47 +16,45 @@
 using namespace std;
 
 Board::Board () {
-  IPiece* bRookLeft = new Rook(BLACK, B_ROOK);
-  IPiece* bRookRight = new Rook(BLACK, B_ROOK);
-  IPiece* bKnightLeft = new Knight(BLACK, B_KNIGHT);
-  IPiece* bKnightRight = new Knight(BLACK, B_KNIGHT);
-  IPiece* bBishopLeft = new Bishop(BLACK, B_BISHOP);
-  IPiece* bBishopRight = new Bishop(BLACK, B_BISHOP);
-  IPiece* bQueen = new Queen(BLACK, B_QUEEN);
-  IPiece* bKing = new King(BLACK, B_KING);
+  m_bRookLeft = new Rook(BLACK, B_ROOK);
+  m_bRookRight = new Rook(BLACK, B_ROOK);
+  m_bKnightLeft = new Knight(BLACK, B_KNIGHT);
+  m_bKnightRight = new Knight(BLACK, B_KNIGHT);
+  m_bBishopLeft = new Bishop(BLACK, B_BISHOP);
+  m_bBishopRight = new Bishop(BLACK, B_BISHOP);
+  m_bQueen = new Queen(BLACK, B_QUEEN);
+  m_bKing = new King(BLACK, B_KING);
 
-  IPiece* blackPawns [NUM_COL];
   for (int i = 0; i < NUM_COL; i++) {
-    blackPawns[i] = new Pawn(BLACK, B_PAWN);
+    m_blackPawns[i] = new Pawn(BLACK, B_PAWN);
   }
 
-  IPiece* wRookLeft = new Rook(WHITE, W_ROOK);
-  IPiece* wRookRight = new Rook(WHITE, W_ROOK);
-  IPiece* wKnightLeft = new Knight(WHITE, W_KNIGHT);
-  IPiece* wKnightRight = new Knight(WHITE, W_KNIGHT);
-  IPiece* wBishopLeft = new Bishop(WHITE, W_BISHOP);
-  IPiece* wBishopRight = new Bishop(WHITE, W_BISHOP);
-  IPiece* wQueen = new Queen(WHITE, W_QUEEN);
-  IPiece* wKing = new King(WHITE, W_KING);
+  m_wRookLeft = new Rook(WHITE, W_ROOK);
+  m_wRookRight = new Rook(WHITE, W_ROOK);
+  m_wKnightLeft = new Knight(WHITE, W_KNIGHT);
+  m_wKnightRight = new Knight(WHITE, W_KNIGHT);
+  m_wBishopLeft = new Bishop(WHITE, W_BISHOP);
+  m_wBishopRight = new Bishop(WHITE, W_BISHOP);
+  m_wQueen = new Queen(WHITE, W_QUEEN);
+  m_wKing = new King(WHITE, W_KING);
 
-  IPiece* whitePawns [NUM_COL];
   for (int i = 0; i < NUM_COL; i++) {
-    whitePawns[i] = new Pawn(WHITE, W_PAWN);
+    m_whitePawns[i] = new Pawn(WHITE, W_PAWN);
   }
 
   // Black piece board order
-  IPiece* blackPieces [NUM_COL] = {bRookLeft, bKnightLeft, bBishopLeft,
-    bQueen, bKing, bBishopRight, bKnightRight, bRookRight};
+  IPiece* blackPieces [NUM_COL] = {m_bRookLeft, m_bKnightLeft, m_bBishopLeft,
+    m_bQueen, m_bKing, m_bBishopRight, m_bKnightRight, m_bRookRight};
 
   // White piece board order
-  IPiece* whitePieces [NUM_COL] = {wRookLeft, wKnightLeft, wBishopLeft,
-    wQueen, wKing, wBishopRight, wKnightRight, wRookRight};
+  IPiece* whitePieces [NUM_COL] = {m_wRookLeft, m_wKnightLeft, m_wBishopLeft,
+    m_wQueen, m_wKing, m_wBishopRight, m_wKnightRight, m_wRookRight};
 
   for (int i = 0; i < NUM_COL; i++) {
     this->AddPiece(0, i, blackPieces[i]);
     this->AddPiece(7, i, whitePieces[i]);
-    this->AddPiece(1, i, blackPawns[i]);
-    this->AddPiece(6, i, whitePawns[i]);
+    this->AddPiece(1, i, m_blackPawns[i]);
+    this->AddPiece(6, i, m_whitePawns[i]);
   }
 }
 
@@ -96,11 +94,6 @@ bool Board::AddPiece (const short row, const short col, IPiece* piece) {
 
 
 bool Board::RemovePiece (const BoardPosition & position) {
-  // Delete the piece
-  IPiece* pieceAtPosition = m_board[position];
-  delete pieceAtPosition;
-  pieceAtPosition = NULL;
-
   // Remove the piece from the map
   short resultCount = m_board.erase(position);
 
@@ -127,13 +120,49 @@ Board & Board::copy (const Board & board) {
 
 
 void Board::free () {
-  map<BoardPosition, IPiece*>::iterator itEnd = m_board.end();
-  map<BoardPosition, IPiece*>::iterator it;
-  BoardPosition currentPosition;
+  delete m_bRookLeft;
+  delete m_bRookRight;
+  delete m_bKnightLeft;
+  delete m_bKnightRight;
+  delete m_bBishopLeft;
+  delete m_bBishopRight;
+  delete m_bQueen;
+  delete m_bKing;
 
-  for (it = m_board.begin(); it != itEnd; it++) {
-    currentPosition = it->first;
-    this->RemovePiece(currentPosition);
+  for (int i = 0; i < NUM_COL; i++) {
+    delete m_blackPawns[i];
+    delete m_whitePawns[i];
+
+    m_blackPawns[i] = NULL;
+    m_whitePawns[i] = NULL;
   }
+
+  delete m_wRookLeft;
+  delete m_wRookRight;
+  delete m_wKnightLeft;
+  delete m_wKnightRight;
+  delete m_wBishopLeft;
+  delete m_wBishopRight;
+  delete m_wQueen;
+  delete m_wKing;
+
+  m_bRookLeft = NULL;
+  m_bRookRight = NULL;
+  m_bKnightLeft = NULL;
+  m_bKnightRight = NULL;
+  m_bBishopLeft = NULL;
+  m_bBishopRight = NULL;
+  m_bQueen = NULL;
+  m_bKing = NULL;
+
+
+  m_wRookLeft = NULL;
+  m_wRookRight = NULL;  
+  m_wKnightLeft = NULL;
+  m_wKnightRight = NULL;
+  m_wBishopLeft = NULL;
+  m_wBishopRight = NULL;
+  m_wQueen = NULL;
+  m_wKing = NULL;
 }
 

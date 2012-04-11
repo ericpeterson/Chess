@@ -47,7 +47,7 @@ void ChessController::on_NewGame() {
   delete m_chessMaster;
   m_chessMaster = new ChessMaster();
 
-  ChessController::DrawBoard();
+  this->DrawBoard();
 }
 
 
@@ -76,7 +76,7 @@ void ChessController::on_LoadGame() {
 
   // Redraw the board
   ChessController::ClearBoard();
-  ChessController::DrawBoard();
+  this->DrawBoard();
 }
 
 
@@ -132,6 +132,7 @@ ChessController & ChessController::copy (const ChessController & chessController
 
 void ChessController::free () {
   delete m_chessMaster;
+  m_chessMaster = NULL;
 }
 
 

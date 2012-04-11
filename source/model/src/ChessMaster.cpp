@@ -3,7 +3,10 @@
 #include "History.h"
 #include "ChessMaster.h"
 
-ChessMaster::ChessMaster () : m_board(new Board()), m_history(new History()), m_turn(WHITE) {}
+ChessMaster::ChessMaster () : m_board(NULL), m_history(NULL), m_turn(WHITE) {
+  m_board = new Board();
+  m_history = new History();
+}
 
 
 ChessMaster::ChessMaster (const ChessMaster & chessMaster) {
@@ -59,4 +62,8 @@ ChessMaster & ChessMaster::copy (const ChessMaster & chessMaster) {
 
 void ChessMaster::free () {
   delete m_board;
+  delete m_history;
+
+  m_board = NULL;
+  m_history = NULL;
 }

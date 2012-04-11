@@ -78,6 +78,26 @@ class Board {
     // A mapping of piece location (Square) to each game piece
     std::map<BoardPosition, IPiece*> m_board;
 
+    // Pieces
+    IPiece* m_bRookLeft;
+    IPiece* m_bRookRight;
+    IPiece* m_bKnightLeft;
+    IPiece* m_bKnightRight;
+    IPiece* m_bBishopLeft;
+    IPiece* m_bBishopRight;
+    IPiece* m_bQueen;
+    IPiece* m_bKing;
+    IPiece* m_blackPawns [NUM_COL];
+
+    IPiece* m_wRookLeft;
+    IPiece* m_wRookRight;
+    IPiece* m_wKnightLeft;
+    IPiece* m_wKnightRight;
+    IPiece* m_wBishopLeft;
+    IPiece* m_wBishopRight;
+    IPiece* m_wQueen;
+    IPiece* m_wKing;
+    IPiece* m_whitePawns [NUM_COL];
 
     /**
      *  Helper function for overloaded assignment operator and copy constructor

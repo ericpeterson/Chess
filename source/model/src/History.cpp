@@ -7,7 +7,9 @@
 
 using namespace std;
 
-History::History (): m_history(new stack<ChessMove>()) {}
+History::History (): m_history(NULL) {
+  m_history = new stack<ChessMove>();
+}
 
 
 History::History (const History & history) {
@@ -32,11 +34,11 @@ bool History::IsEmpty () const {
 
 
 const ChessMove & History::pop () {
-  if (History::IsEmpty()) {
+  if (this->IsEmpty()) {
     throw CS240Exception("Cannot pop an empty history."); 
   }
 
-  History::UpdateLastMove();
+  this->UpdateLastMove();
   m_history->pop();
 
   return m_lastMove;

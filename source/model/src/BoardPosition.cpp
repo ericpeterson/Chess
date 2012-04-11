@@ -96,8 +96,8 @@ bool BoardPosition::MoveUpLeft (const short numTimes) {
   if (newPositionRow < 0 || newPositionCol < 0) {
     wasMoved = false;
   } else {
-    bool upResult = BoardPosition::MoveUp(numTimes);
-    bool leftResult = BoardPosition::MoveLeft(numTimes);
+    bool upResult = this->MoveUp(numTimes);
+    bool leftResult = this->MoveLeft(numTimes);
     assert(upResult);
     assert(leftResult);
   }
@@ -114,8 +114,8 @@ bool BoardPosition::MoveUpRight (const short numTimes) {
   if (newPositionRow < 0 || newPositionCol > (NUM_COL - 1)) {
     wasMoved = false;
   } else {
-    bool upResult = BoardPosition::MoveUp(numTimes);
-    bool rightResult = BoardPosition::MoveRight(numTimes);
+    bool upResult = this->MoveUp(numTimes);
+    bool rightResult = this->MoveRight(numTimes);
     assert(upResult);
     assert(rightResult);
   }
@@ -132,8 +132,8 @@ bool BoardPosition::MoveDownLeft (const short numTimes) {
   if (newPositionRow > (NUM_ROW - 1) || newPositionCol < 0) {
     wasMoved = false;
   } else {
-    bool downResult = BoardPosition::MoveDown(numTimes);
-    bool leftResult = BoardPosition::MoveLeft(numTimes);
+    bool downResult = this->MoveDown(numTimes);
+    bool leftResult = this->MoveLeft(numTimes);
     assert(downResult);
     assert(leftResult);
   }
@@ -150,8 +150,8 @@ bool BoardPosition::MoveDownRight (const short numTimes) {
   if (newPositionRow > (NUM_ROW - 1) || newPositionCol > (NUM_COL - 1)) {
     wasMoved = false;
   } else {
-    bool downResult = BoardPosition::MoveDown(numTimes);
-    bool rightResult = BoardPosition::MoveRight(numTimes);
+    bool downResult = this->MoveDown(numTimes);
+    bool rightResult = this->MoveRight(numTimes);
     assert(downResult);
     assert(rightResult);
   }

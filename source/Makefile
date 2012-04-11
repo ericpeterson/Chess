@@ -138,7 +138,8 @@ test: $(TEST_DRIVER_EXE)
 # memory-check executable in Human-Human mode (i.e., add necessary command  
 # line arguments to the end of valgrind the command below).	
 memcheck: $(MEXE)
-	valgrind --tool=memcheck --leak-check=yes --max-stackframe=5000000 --show-reachable=yes --suppressions=string.supp $(MEXE) 2 #command-line args go here
+	@export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
+	/home/eric/School/Chess/source/lib"; valgrind --tool=memcheck --leak-check=yes --max-stackframe=5000000 --show-reachable=yes --suppressions=string.supp $(MEXE) 2 #command-line args go here
 
 LIB = ./lib/libchessgui.so
 
