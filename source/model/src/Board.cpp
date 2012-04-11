@@ -61,6 +61,9 @@ Board::Board () {
 }
 
 
+Board::Board (const std::map<BoardPosition, IPiece*> & newBoard) : m_board(newBoard) {}
+
+
 Board::Board (const Board & board) {
   copy(board);
 }

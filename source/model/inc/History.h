@@ -11,6 +11,9 @@ class History {
     // Default constructor
     History ();
 
+
+    History (std::stack<ChessMove>* newHistory);
+
     
     /**
      *  Copy constructor

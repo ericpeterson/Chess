@@ -1,7 +1,10 @@
 #include <map>
+#include <stack>
 #include <fstream>
+#include <iostream>
 
 #include "HTMLTokenizer.h"
+#include "HTMLToken.h"
 #include "CS240Exception.h"
 
 #include "IChessView.h"
@@ -12,6 +15,7 @@
 #include "HumanPlayer.h"
 #include "ComputerPlayer.h"
 #include "ChessMaster.h"
+#include "ChessMove.h"
 #include "ChessGuiDefines.h"
 #include "IPiece.h"
 #include "ChessColor.h"
@@ -84,6 +88,7 @@ void ChessController::on_NewGame() {
   delete m_chessMaster;
   m_chessMaster = new ChessMaster();
 
+  this->ClearBoard();
   this->DrawBoard();
 }
 
@@ -96,11 +101,17 @@ void ChessController::on_SaveGameAs() {}
 
 void ChessController::on_LoadGame() {
   string fileName = m_pView->SelectLoadFile();
+
+  if (fileName.empty()) {
+    return;
+  }
+
   ifstream loadFile(fileName.c_str());
 
   if (!loadFile.is_open()) {
     throw CS240Exception("Error: file was not opened");
   }
+
 
   // read in the file -- loadFile
   string xmlContents = ChessController::ReadFile(loadFile);
@@ -109,10 +120,10 @@ void ChessController::on_LoadGame() {
   loadFile.close();
 
   // parse xml tokens and update memory state
-  ChessController::UpdateState(xmlContents);
+  this->UpdateState(xmlContents);
 
   // Redraw the board
-  ChessController::ClearBoard();
+  this->ClearBoard();
   this->DrawBoard();
 }
 
@@ -198,9 +209,40 @@ string ChessController::ReadFile (ifstream & file) {
 
 void ChessController::UpdateState (std::string xmlFile) {
   HTMLTokenizer tokenizer(xmlFile);
+  HTMLToken token("", TEXT);
+  string value;
+
+  map<BoardPosition, IPiece*> newBoard;
+  stack<ChessMove>* newHistory = new stack<ChessMove>();
 
   while (tokenizer.HasNextToken()) {
-    // tokenizer.GetNextToken();
+    token = tokenizer.GetNextToken();
+    value = token.GetValue();
+ 
+    switch (token.GetType()) {
+      case TAG_START:
+        if (value == "board") {
+          cout << "Start of board" << endl; 
+        }
+
+        if (value == "piece") {
+          cout << "Piece element" << endl;
+        }
+
+        break;
+      case TAG_END:
+        break;
+      case COMMENT:
+        break;
+      case TEXT:
+        break;
+      case END:
+        break;
+    }
   }
+
+  // delete old memory
+  delete m_chessMaster;
+  m_chessMaster = new ChessMaster(newBoard, newHistory);
 }
 

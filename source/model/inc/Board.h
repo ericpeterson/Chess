@@ -17,6 +17,9 @@ class Board {
     Board ();
 
 
+    Board (const std::map<BoardPosition, IPiece*> & newBoard);
+
+
     /**
      *  Copy constructor
      *

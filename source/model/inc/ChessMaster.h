@@ -1,6 +1,9 @@
 #ifndef _CHESS_MASTER_H_
 #define _CHESS_MASTER_H_
 
+#include <map>
+#include <stack>
+
 #include "Board.h"
 #include "ChessColor.h"
 #include "History.h"
@@ -10,6 +13,10 @@ class ChessMaster {
 
     // Default constructor
     ChessMaster ();
+
+
+    ChessMaster (std::map<BoardPosition, IPiece*> newBoard,
+      std::stack<ChessMove>* newHistory);
 
 
     /**

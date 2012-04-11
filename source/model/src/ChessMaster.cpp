@@ -1,11 +1,23 @@
-#include "Board.h"
+#include <map>
+#include <stack>
+
 #include "ChessColor.h"
+#include "Board.h"
 #include "History.h"
 #include "ChessMaster.h"
+
+using namespace std;
 
 ChessMaster::ChessMaster () : m_board(NULL), m_history(NULL), m_turn(WHITE) {
   m_board = new Board();
   m_history = new History();
+}
+
+
+ChessMaster::ChessMaster (map<BoardPosition, IPiece*> newBoard,
+  stack<ChessMove>* newHistory) : m_board(NULL), m_history(NULL), m_turn(WHITE) {
+  m_board = new Board(newBoard);
+  m_history = new History(newHistory);
 }
 
 

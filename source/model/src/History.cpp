@@ -12,6 +12,9 @@ History::History (): m_history(NULL) {
 }
 
 
+History::History (stack<ChessMove>* newHistory) : m_history(newHistory) {}
+
+
 History::History (const History & history) {
   copy(history);
 }
