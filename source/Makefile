@@ -113,19 +113,19 @@ LIB_OBJS = $(VIEW_OBJ)ChessView.o \
 
 runhc: $(EXE)
 	@export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
-	/home/eric/School/Chess/source/lib"; $(EXE) 1
+	/home/eric/School/Chess/source/lib:./lib"; $(EXE) 1
 
 runch: $(EXE)
 	@export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
-	/home/eric/School/Chess/source/lib"; $(EXE) 2
+	/home/eric/School/Chess/source/lib:./lib"; $(EXE) 2
 
 runhh: $(EXE)
 	@export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
-	/home/eric/School/Chess/source/lib"; $(EXE) 3
+	/home/eric/School/Chess/source/lib:./lib"; $(EXE) 3
 
 runcc: $(EXE)
 	@export LD_LIBRARY_PATH="/users/guest/p/peter2/cs240/Chess/source/lib:\
-	/home/eric/School/Chess/source/lib"; $(EXE) 4
+	/home/eric/School/Chess/source/lib:./lib"; $(EXE) 4
 
 bin: $(EXE)
 
