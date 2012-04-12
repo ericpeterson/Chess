@@ -68,6 +68,10 @@ class ChessMaster {
     ChessColor GetTurn () const;
 
 
+    void SetTurn (ChessColor turn) {
+      m_turn = turn;
+    }
+
     /**
      *  Toggles the turns from WHITE to BLACK and vice versa
      */

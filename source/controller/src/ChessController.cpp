@@ -80,6 +80,9 @@ void ChessController::on_CellSelected(int row, int col, int button) {
   } else if (BLACK == turn) {
     m_blackPlayer->on_CellSelected(row, col, button);
   }
+
+  this->ClearBoard();
+  this->DrawBoard();
 }
 
 
@@ -95,6 +98,7 @@ void ChessController::on_NewGame() {
   delete m_chessMaster;
   m_chessMaster = new ChessMaster();
 
+  m_whitePlayer->DisplayTurn();
   this->ClearBoard();
   this->DrawBoard();
 }
@@ -188,6 +192,7 @@ void ChessController::on_LoadGame() {
   // Redraw the board
   this->ClearBoard();
   this->DrawBoard();
+  m_whitePlayer->DisplayTurn();
 }
 
 
@@ -280,9 +285,13 @@ void ChessController::UpdateState (std::string xmlFile) {
   string value;
   bool inBoard = false;
   bool inMove = false;
+  bool firstMovePiece = true;
 
   map<BoardPosition, IPiece*> newBoard;
   stack<ChessMove>* newHistory = new stack<ChessMove>();
+
+  string currentTurnStr;
+  ChessColor currentTurn;
 
   while (tokenizer.HasNextToken()) {
     token = tokenizer.GetNextToken();
@@ -306,12 +315,16 @@ void ChessController::UpdateState (std::string xmlFile) {
         }
 
         if (value == "piece" && inMove) {
-
+          if (firstMovePiece) {
+            currentTurnStr = token.GetAttribute("color");
+            firstMovePiece = false;
+          }
         }
         
         if (value == "move") {
           inBoard = false;
           inMove = true;
+          firstMovePiece = true;
           cout << "Move element" << endl;
         }
 
@@ -324,8 +337,16 @@ void ChessController::UpdateState (std::string xmlFile) {
     }
   }
 
+
+  if (currentTurnStr == "white") {
+    currentTurn = BLACK; 
+  } else {
+    currentTurn = WHITE;
+  } 
+
   // delete old memory
   delete m_chessMaster;
   m_chessMaster = new ChessMaster(newBoard, newHistory);
+  m_chessMaster->SetTurn(currentTurn);
 }
 
