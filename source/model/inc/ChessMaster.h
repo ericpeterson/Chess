@@ -77,6 +77,9 @@ class ChessMaster {
      */
     void ToggleTurn ();
 
+
+    void Undo ();
+
   private:
 
     // The current board layout

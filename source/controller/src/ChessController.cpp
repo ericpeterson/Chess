@@ -196,7 +196,12 @@ void ChessController::on_LoadGame() {
 }
 
 
-void ChessController::on_UndoMove() {}
+void ChessController::on_UndoMove() {
+  /*m_chessMaster->Undo();
+  this->ClearBoard();
+  this->DrawBoard();
+  m_whitePlayer->DisplayTurn();*/
+}
 
   
 void ChessController::on_QuitGame() {}
@@ -286,12 +291,16 @@ void ChessController::UpdateState (std::string xmlFile) {
   bool inBoard = false;
   bool inMove = false;
   bool firstMovePiece = true;
+  bool secondMovedPiece = false;
+  bool thirdMovedPiece = false;
 
   map<BoardPosition, IPiece*> newBoard;
   stack<ChessMove>* newHistory = new stack<ChessMove>();
 
   string currentTurnStr;
   ChessColor currentTurn;
+
+  ChessMove move;
 
   while (tokenizer.HasNextToken()) {
     token = tokenizer.GetNextToken();
@@ -317,7 +326,22 @@ void ChessController::UpdateState (std::string xmlFile) {
         if (value == "piece" && inMove) {
           if (firstMovePiece) {
             currentTurnStr = token.GetAttribute("color");
+
             firstMovePiece = false;
+            secondMovedPiece = true;
+            thirdMovedPiece = false;
+          }
+
+          if (secondMovedPiece) {
+            firstMovePiece = false;
+            secondMovedPiece = false;
+            thirdMovedPiece = true;
+          }
+
+          if (thirdMovedPiece) {
+            firstMovePiece = true;
+            secondMovedPiece = false;
+            thirdMovedPiece = false;
           }
         }
         
@@ -325,6 +349,9 @@ void ChessController::UpdateState (std::string xmlFile) {
           inBoard = false;
           inMove = true;
           firstMovePiece = true;
+          secondMovedPiece = false;
+          thirdMovedPiece = false;
+          
           cout << "Move element" << endl;
         }
 

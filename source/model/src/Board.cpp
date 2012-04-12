@@ -93,6 +93,10 @@ IPiece* Board::PieceAtPosition (const short row, const short col) {
 
 
 bool Board::AddPiece (const short row, const short col, IPiece* piece) {
+  if (NULL == piece) {
+    return false;
+  }
+
   pair<BoardPosition, IPiece*> position(BoardPosition(row, col), piece);
   pair<map<BoardPosition, IPiece*>::iterator, bool> resultPair =
     m_board.insert(position);

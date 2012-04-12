@@ -71,6 +71,19 @@ void ChessMaster::ToggleTurn () {
 }
 
 
+void ChessMaster::Undo () {
+  ChessMove lastMove = m_history->pop();
+  int row = lastMove.m_originalPosition.GetRow();
+  int col = lastMove.m_originalPosition.GetCol();
+  int rowTaken = lastMove.m_finalPosition.GetRow();
+  int colTaken = lastMove.m_finalPosition.GetCol();
+
+  m_board->RemovePiece(lastMove.m_finalPosition);
+  m_board->AddPiece(row, col, lastMove.m_movedPiece);
+  m_board->AddPiece(rowTaken, colTaken, lastMove.m_takenPiece);
+}
+
+
 ChessMaster & ChessMaster::copy (const ChessMaster & chessMaster) {
   if (this != &chessMaster) {
     m_board = chessMaster.m_board;

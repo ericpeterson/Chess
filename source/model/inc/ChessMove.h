@@ -19,9 +19,6 @@ struct ChessMove {
 
     // type of piece that was taken; NULL if no piece was taken
     IPiece* m_takenPiece;
-
-    // position of piece that was taken; an invalid board position if no piece was taken
-    BoardPosition m_takenPosition;
 };
 
 #endif

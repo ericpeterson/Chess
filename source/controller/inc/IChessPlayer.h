@@ -188,7 +188,6 @@ class IChessPlayer
       move.m_originalPosition = m_position;
       move.m_finalPosition = finalPosition;
       move.m_takenPiece = removedPiece;
-      move.m_takenPosition = finalPosition;
 
       history->push(move);
     }
