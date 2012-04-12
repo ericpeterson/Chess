@@ -20,12 +20,19 @@ void HumanPlayer::on_CellSelected (int row, int col, int button) {
 
   BoardPosition position(row, col);
   set<BoardPosition> moves;
+  ChessColor color;
+  ChessColor turn = m_chessMaster->GetTurn();
 
   switch (m_state) {
     case FirstClick:
       m_piece = board->PieceAtPosition(row, col);
 
       if (NULL == m_piece) {
+        return;
+      }
+
+      color = m_piece->GetColor(); 
+      if (turn != color) {
         return;
       }
 

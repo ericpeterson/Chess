@@ -20,6 +20,12 @@
 #include "IPiece.h"
 #include "ChessColor.h"
 #include "Board.h"
+#include "King.h"
+#include "Queen.h"
+#include "Bishop.h"
+#include "Rook.h"
+#include "Knight.h"
+#include "Pawn.h"
 
 using namespace std;
 
@@ -68,6 +74,7 @@ ChessController & ChessController::operator = (const ChessController & chessCont
 void ChessController::on_CellSelected(int row, int col, int button) {
   ChessColor turn =  m_chessMaster->GetTurn();
 
+
   if (WHITE == turn) {
     m_whitePlayer->on_CellSelected(row, col, button);
   } else if (BLACK == turn) {
@@ -90,6 +97,62 @@ void ChessController::on_NewGame() {
 
   this->ClearBoard();
   this->DrawBoard();
+}
+
+
+IPiece* ChessController::createNewPiece(std::string type, std::string color) {
+  IPiece* piece = NULL;
+  // use new
+  if (type == "rook") {
+    if (color == "white")
+      piece = new Rook(WHITE, W_ROOK);
+    else
+      piece = new Rook(BLACK, B_ROOK);
+  } else if (type == "knight") {
+    if (color == "white")
+      piece = new Knight(WHITE, W_KNIGHT);
+    else
+      piece = new Knight(BLACK, B_KNIGHT);
+  } else if (type == "bishop") {
+    if (color == "white")
+      piece = new Bishop(WHITE, W_BISHOP);
+    else
+      piece = new Bishop(BLACK, B_BISHOP);
+  } else if (type == "king") {
+    if (color == "white")
+      piece = new King(WHITE, W_KING);
+    else
+      piece = new King(BLACK, B_KING);
+  } else if (type == "queen") {
+    if (color == "white")
+      piece = new Queen(WHITE, W_QUEEN);
+    else
+      piece = new Queen(BLACK, B_QUEEN);
+  } else if (type == "pawn") {
+    if (color == "white")
+      piece = new Pawn(WHITE, W_PAWN);
+    else
+      piece = new Pawn(BLACK, B_PAWN);
+  }
+
+  return piece;
+}
+
+
+BoardPosition ChessController::createPosition(std::string row, std::string col) {
+  std::stringstream rowStream;
+  std::stringstream colStream;
+
+  rowStream << row;
+  colStream << col;
+
+  int rowInt;
+  int colInt;
+
+  rowStream >> rowInt;
+  colStream >> colInt;
+
+  return BoardPosition (rowInt, colInt);
 }
 
 
@@ -166,7 +229,11 @@ void ChessController::DrawBoard () {
 
 
 void ChessController::ClearBoard () {
-
+  for (int i = 0; i < NUM_ROW; i++) {
+    for (int j = 0; j < NUM_COL; j++) {
+      m_pView->ClearPiece(i, j);
+    }
+  }
 }
 
 
@@ -211,6 +278,8 @@ void ChessController::UpdateState (std::string xmlFile) {
   HTMLTokenizer tokenizer(xmlFile);
   HTMLToken token("", TEXT);
   string value;
+  bool inBoard = false;
+  bool inMove = false;
 
   map<BoardPosition, IPiece*> newBoard;
   stack<ChessMove>* newHistory = new stack<ChessMove>();
@@ -222,22 +291,36 @@ void ChessController::UpdateState (std::string xmlFile) {
     switch (token.GetType()) {
       case TAG_START:
         if (value == "board") {
-          cout << "Start of board" << endl; 
+          cout << "Start of board" << endl;
+          inBoard = true;
+          inMove = false;
         }
 
-        if (value == "piece") {
+        if (value == "piece" && inBoard) {
+          BoardPosition pos = createPosition(token.GetAttribute("row"), token.GetAttribute("column"));
+          IPiece* piece = createNewPiece(token.GetAttribute("type"), token.GetAttribute("color"));
+          pair<BoardPosition, IPiece*> posPair(pos, piece);
+
+          newBoard.insert(posPair);
           cout << "Piece element" << endl;
+        }
+
+        if (value == "piece" && inMove) {
+
+        }
+        
+        if (value == "move") {
+          inBoard = false;
+          inMove = true;
+          cout << "Move element" << endl;
         }
 
         break;
       case TAG_END:
-        break;
       case COMMENT:
-        break;
       case TEXT:
-        break;
       case END:
-        break;
+        cout << "" << endl;
     }
   }
 

@@ -2,12 +2,15 @@
 #define _CHESS_CONTROLLER_H_
 
 #include <fstream>
+#include <string>
+#include <sstream>
 
 #include "IChessView.h"
 #include "IChessController.h"
 #include "Modes.h"
 #include "IChessPlayer.h"
 #include "ChessMaster.h"
+#include "BoardPosition.h"
 
 class ChessController: public IChessController {
   public:
@@ -123,6 +126,12 @@ class ChessController: public IChessController {
      *  Clears the current board in the GUI
      */
     void ClearBoard ();
+
+
+    IPiece* createNewPiece(std::string type, std::string color);
+
+
+    BoardPosition createPosition(std::string row, std::string col);
 
   private:
 
